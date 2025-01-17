@@ -4,7 +4,7 @@ rm -rf .venv/
 # Get the required python version in .python-version (e.g., 3.9.1)
 PYTHON_VERSION=$(pyenv version-name)
 
-# Install the python version if not present
+# # Install the python version if not present
 pyenv install --skip-existing
 
 # Configure poetry to use the installed python version

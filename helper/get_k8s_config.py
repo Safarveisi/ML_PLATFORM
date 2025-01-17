@@ -4,9 +4,9 @@ import argparse
 import requests
 import yaml
 
+
 # Default directory to put the cluster's config file
 KUBECONFIG_DIR = os.path.join(os.path.expanduser("~"), ".kube")
-
 
 def get_ionos_k8s_kubeconfig(
     k8s_cluster_id: str
