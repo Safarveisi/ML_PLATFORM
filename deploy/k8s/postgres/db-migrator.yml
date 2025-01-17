@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migrator
+  namespace: app
+spec:
+  template:
+    spec:
+      containers:
+        - name: migrate
+          image: ciaa/pg-db-migrator:mypassword
+          args:
+            - -path=/app/migrations
+            - -database=$(DATABASE_URL)?sslmode=disable
+            - up
+          envFrom:
+            - secretRef:
+                name: db-password
+      restartPolicy: OnFailure
+
+      

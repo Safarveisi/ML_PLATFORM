@@ -1,0 +1,65 @@
+version: "3"
+
+vars:
+  IMAGE_REPO: ciaa/pg-db-migrator
+  IMAGE_TAG: mypassword
+  POSTGRES_VER: 15.3.2
+
+tasks:
+
+  run-postgres:
+    desc: Start postgres container
+    cmds:
+      - echo Starting postgres container
+      - docker run -e POSTGRES_PASSWORD={{.IMAGE_TAG}} -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:16.3-alpine
+
+  run-psql-init-script:
+    desc: Execute psql commands
+    cmds:
+      - |
+        CONTAINER_ID=$(docker ps -q --filter "ancestor=postgres:16.3-alpine")
+        docker cp ./migrations/1_create_users_table.up.sql $CONTAINER_ID:/tmp/
+        docker exec $CONTAINER_ID psql -U "postgres" -f /tmp/1_create_users_table.up.sql
+
+  build-container-image:
+    desc: Build container image
+    cmds:
+      - docker build -t {{.IMAGE_REPO}}:{{.IMAGE_TAG}} .
+
+  build-container-image-multi-arch:
+    desc: Build multi-arch container image (assuming that a build instance is availabe)
+    cmds:
+      - |
+        docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        -t {{.IMAGE_REPO}}:{{.IMAGE_TAG}} \
+        --push \
+        .
+
+  install-postgres:
+    desc: Deploy PostgreSQL using Helm
+    cmds:
+      - helm repo add bitnami https://charts.bitnami.com/bitnami
+      - |
+        helm upgrade --install -n postgres \
+          postgres bitnami/postgresql \
+          --set auth.postgresPassword={{.IMAGE_TAG}} \
+          --version {{.POSTGRES_VER}} \
+          --values values.yml \
+          --create-namespace
+  
+  remove-postgres:
+    desc: Remove postgres deployment
+    cmds:
+      - kubectl delete namespace postgres
+
+  apply-initial-db-migration-job:
+    desc: Run init.sql script against the DB
+    cmds:
+      - kubectl apply -f db-password.yml
+      - kubectl apply -f db-migrator.yml
+
+  pod-logs:
+    desc: Outputs a pod's logs
+    cmds:
+      - kubectl logs {{.CLI_ARGS}}
