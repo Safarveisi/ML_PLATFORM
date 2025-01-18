@@ -1,5 +1,4 @@
 import os
-from typing import Optional
 import argparse
 import requests
 import yaml
