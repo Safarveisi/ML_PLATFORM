@@ -390,54 +390,6 @@
         }
       }
     },
-    "pyenv@2.4.22": {
-      "last_modified": "2024-12-17T11:43:56Z",
-      "resolved": "github:NixOS/nixpkgs/4989a246d7a390a859852baddb1013f825435cee#pyenv",
-      "source": "devbox-search",
-      "version": "2.4.22",
-      "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/5s1zafg8hbhb2jqqjvlmx2h403shpjrd-pyenv-2.4.22",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/5s1zafg8hbhb2jqqjvlmx2h403shpjrd-pyenv-2.4.22"
-        },
-        "aarch64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/1hphgi2gs40vw0awrgs0kq08qjr762wx-pyenv-2.4.22",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/1hphgi2gs40vw0awrgs0kq08qjr762wx-pyenv-2.4.22"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/iv1gc38lipj32cnnxhz9mm89vnwazgvf-pyenv-2.4.22",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/iv1gc38lipj32cnnxhz9mm89vnwazgvf-pyenv-2.4.22"
-        },
-        "x86_64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/7jvg6yl02zj8mykpq6qjq3z416axm51p-pyenv-2.4.22",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/7jvg6yl02zj8mykpq6qjq3z416axm51p-pyenv-2.4.22"
-        }
-      }
-    },
     "terraform@1.10.3": {
       "last_modified": "2024-12-23T21:10:33Z",
       "resolved": "github:NixOS/nixpkgs/de1864217bfa9b5845f465e771e0ecb48b30e02d#terraform",

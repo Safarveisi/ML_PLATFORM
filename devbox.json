@@ -8,8 +8,7 @@
     "terraform@1.10.3",
     "go-task@latest",
     "kubernetes-helm@3.15.4",
-    "kubectx@latest",
-    "pyenv@2.4.22"
+    "kubectx@latest"
   ],
   "shell": {
     "init_hook": [

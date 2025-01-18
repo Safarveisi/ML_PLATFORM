@@ -1,4 +1,0 @@
-myhosts:
-  hosts:
-    my_host_01:
-      ansible_host: 85.215.182.83
