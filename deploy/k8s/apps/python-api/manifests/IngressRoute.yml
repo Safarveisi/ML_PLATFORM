@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: python-api
+  namespace: app
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`ionos.ingress-traefik.com`) && PathPrefix(`/fast/python-api`)
+      middlewares:
+        - name: strip-api-prefixes
+      services:
+        - kind: Service
+          name: python-api
+          port: 8000
+          scheme: http

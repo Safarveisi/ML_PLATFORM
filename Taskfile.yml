@@ -1,9 +1,0 @@
-version: '3'
-
-tasks:
-  apply-namespace:
-    desc: Apply k8s namespace
-    cmds:
-      - kubectl apply -f namespace.yml
-      - kubens app
-

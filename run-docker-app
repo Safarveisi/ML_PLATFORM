@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Use this script for testing purposes only (build image, but do not push to docker hub)
 
 # Version of the app (image tag)

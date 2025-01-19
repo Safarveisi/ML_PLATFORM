@@ -1,5 +1,8 @@
+#!/bin/bash
+
 # Remove the virtual env created by devbox (after running `devbox shell`) 
-rm -rf .venv/
+VENV=$(poetry env info -p)
+[[ -d $VENV ]] && rm -rf $VENV
 
 # Get the required python version in .python-version (already installed via pyenv)
 PYTHON_VERSION=$(pyenv version-name)
