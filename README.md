@@ -1,4 +1,4 @@
-# Kubernetes microservices 
+# Kubernetes microservices :electron:
 
 Here's an example of deploying various services on a Kubernetes cluster, such as a FastAPI web service and a Streamlit dashboard. This setup utilizes an Nginx controller as an ingress resource to route traffic to the appropriate service based on the originating endpoint. You can refer to `/deploy/k8s/common/ingress.yml` for more details.
 
