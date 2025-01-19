@@ -2,11 +2,14 @@ version: "3"
 
 includes:
   common:
-    taskfile: ./common/Taskfile.yaml
+    taskfile: ./common/Taskfile.yml
     dir: ./common
   postgres:
-    taskfile: ./postgres/Taskfile.yaml
+    taskfile: ./postgres/Taskfile.yml
     dir: ./postgres
   python-api:
-    taskfile: ./python-api/Taskfile.yml
-    dir: ./python-api
+    taskfile: ./apps/python-api/Taskfile.yml
+    dir: ./apps/python-api
+  streamlit:
+    taskfile: ./apps/streamlit/Taskfile.yml
+    dir: ./apps/streamlit
