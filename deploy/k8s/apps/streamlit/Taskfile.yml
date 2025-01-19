@@ -6,12 +6,12 @@ vars:
 
 tasks:
 
-  apply-streamlit:
+  apply:
     desc: Deploy streamlit
     cmds:
       - kubectl apply -f manifests
 
-  delete-streamlit:
+  delete:
     desc: Remove streamlit deployment
     cmds:
       - kubectl delete -f manifests

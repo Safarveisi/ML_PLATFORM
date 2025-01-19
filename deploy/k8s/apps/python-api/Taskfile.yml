@@ -6,12 +6,12 @@ vars:
 
 tasks:
 
-  apply-python-api:
+  apply:
     desc: Deploy the python api
     cmds:
       - kubectl apply -f manifests
 
-  delete-python-api:
+  delete:
     desc: Removes the api deployment
     cmds:
       - kubectl delete -f manifests

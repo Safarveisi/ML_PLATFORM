@@ -13,3 +13,14 @@ includes:
   streamlit:
     taskfile: ./apps/streamlit/Taskfile.yml
     dir: ./apps/streamlit
+
+tasks:
+
+  apply-all:
+    - task: common:apply-namespace
+    - task: postgres:install-postgres
+    - task: postgres:apply-initial-db-migration-job
+    - task: common:deploy-nginx
+    - task: common:deploy-ingress-nginx
+    - task: python-api:apply
+    - task: streamlit:apply
