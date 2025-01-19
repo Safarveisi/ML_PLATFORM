@@ -7,13 +7,30 @@ tasks:
       - kubectl apply -f namespace.yml
       - kubens app
 
-  deploy-traefik:
-    desc: Deploy Traefik using Helm
+  deploy-nginx:
+    desc: Deploy Nginx controller using helm
     cmds:
-      - helm repo add traefik https://traefik.github.io/charts
-      - helm upgrade --install -n traefik --create-namespace traefik traefik/traefik --version 20.8.0
+      - |
+        helm upgrade --install ingress-nginx ingress-nginx \
+          --repo https://kubernetes.github.io/ingress-nginx \
+          --namespace ingress-nginx \
+          --create-namespace \
+          --version 4.10.1
+  
+  delete-nginx:
+    desc: Uninstall Nginx controller using helm
+    cmds:
+      - |
+        helm uninstall -n ingress-nginx ingress-nginx
 
-  apply-traefik-middleware:
-    desc: Deploy Traefik middleware
+  deploy-ingress-nginx:
+    desc: Deploy ingress with Nginx controller
     cmds:
-      - kubectl apply -f middleware.yml
+      - |
+        kubectl apply -f ingress.yml
+
+  delete-ingress-nginx:
+    desc: Delete ingress with Nginx controller
+    cmds:
+      - |
+        kubectl delete -f ingress.yml

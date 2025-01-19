@@ -17,18 +17,29 @@ spec:
     spec:
       containers:
         - name: python-api
-          image: ciaa/python-api:mypassword
+          image: docker.io/ciaa/python-api:mypassword
+          imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: python-api-database-url
           ports:
-            - containerPort: 8000
-              protocol: TCP
+            - name: readiness-port 
+              containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: readiness-port 
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: readiness-port 
+            failureThreshold: 5
+            periodSeconds: 2          
           resources:
             limits:
-              memory: "2000Mi"
+              memory: "4000Mi"
             requests:
-              memory: "2000Mi"
+              memory: "4000Mi"
               cpu: "2000m"
           securityContext:
             allowPrivilegeEscalation: false

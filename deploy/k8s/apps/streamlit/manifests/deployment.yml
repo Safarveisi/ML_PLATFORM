@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamlit
+  namespace: app
+  labels:
+    app: streamlit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: streamlit
+  template:
+    metadata:
+      labels:
+        app: streamlit
+    spec:
+      containers:
+        - name: streamlit
+          image: docker.io/ciaa/streamlit:mypassword
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: streamlit-database-url
+          ports:
+            - name: liveness-port 
+              containerPort: 8501
+          livenessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: liveness-port 
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: liveness-port 
+            timeoutSeconds: 1     
+          resources:
+            limits:
+              memory: "1000Mi"
+            requests:
+              memory: "1000Mi"
+              cpu: "500m"
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

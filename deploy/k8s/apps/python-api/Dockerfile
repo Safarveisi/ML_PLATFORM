@@ -29,9 +29,9 @@ RUN useradd -u 1001 nonroot
 FROM python-base AS builder-base
 
 # Dependencies for poetry
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y \
-    curl
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install poetry - respects $POETRY_VERSION & $POETRY_HOME
 RUN curl -sSL https://install.python-poetry.org | python3 -
@@ -54,4 +54,4 @@ USER nonroot
 
 EXPOSE 8000
 
-CMD [ "gunicorn", "main:app", "-w", "2", "-k", "uvicorn.workers.UvicornWorker" ]
+CMD [ "gunicorn", "main:app", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000" ]

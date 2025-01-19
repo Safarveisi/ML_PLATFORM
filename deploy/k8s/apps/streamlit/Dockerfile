@@ -23,12 +23,16 @@ ENV PYTHONUNBUFFERED=1 \
 # Prepend poetry and venv to path
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
+# Create a non-root user and group (necessary for Streamlit to function properly)
+RUN groupadd --gid 1000 nonroot && \
+    useradd --uid 1000 --gid nonroot --shell /bin/bash --create-home nonroot
+
 FROM python-base AS builder-base
 
 # Dependencies for poetry
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y \
-    curl
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install poetry - respects $POETRY_VERSION & $POETRY_HOME
 RUN curl -sSL https://install.python-poetry.org | python3 -
@@ -43,17 +47,13 @@ RUN poetry install --without dev
 
 FROM python-base AS serve
 
-# Create a non-root user and group (necessary for Streamlit to function properly)
-RUN groupadd --gid 1000 appuser && \
-    useradd --uid 1000 --gid appuser --shell /bin/bash --create-home appuser
-
 # Switch to the new user
-USER appuser
-WORKDIR /home/appuser
+USER nonroot
+WORKDIR /home/nonroot
 
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
-COPY water_level_anomaly_detection/ ./
+COPY main.py postgres_conn.py ./
 
 EXPOSE 8501
 
-CMD [ "streamlit", "run", "app.py" ]
+CMD [ "streamlit", "run", "main.py" ]
