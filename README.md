@@ -1,9 +1,9 @@
-# Kubernetes microservices :electron:
+# Kubernetes microservices
 
 Here's an example of deploying various services on a Kubernetes cluster, such as a FastAPI web service and a Streamlit dashboard. This setup utilizes an Nginx controller as an ingress resource to route traffic to the appropriate service based on the originating endpoint. You can refer to `/deploy/k8s/common/ingress.yml` for more details.
 
 
-# Prerequisites
+# Prerequisites :hammer_and_wrench:
 
 To get started, you'll need access to a Kubernetes cluster. For this project, I used a managed Kubernetes cluster on IONOS Cloud, provisioned using Terraform (refer to `/terraform` for more information). Additionally, you should install `devbox` and activate its shell to access the necessary software packages for this project (see `devbox.json`). Lastly, ensure that you have both the `Docker Engine` and `pyenv` installed. Using `pyenv`, install a Python version that is compatible with `pyproject.toml` file, such as Python 3.9.1, used in this project.
 
@@ -32,7 +32,7 @@ poetry run python helper/get_k8s_config.py
 
 This will save `config` file in `~/.kube/` (note that existing `config` file will be replaced). You can modify the python module to suit your needs (e.g., put the `config` file in an arbitrary location).
 
-## Usage 
+## Usage :unlock:
 
 :one: Navigate to the following directories one by one and use `task build-container-image-multi-arch` to build a multi arch image and push it to `docker.io` registery.
 
@@ -62,6 +62,6 @@ kubectl get svc -n ingress-nginx
 
 :sunglasses: You can now make an API request to http://ionos.ingress-nginx.com/fast/python-api/ with the parameter `select-api?api_name=node`. FastAPI will handle the request and store the request parameter, `api_name=node`, along with its timestamp, in a PostgreSQL table (public.request). Additionally, you can access the `Streamlit` dashboard by navigating to http://ionos.ingress-nginx.com/streamlit/.
 
-# System 
+# System :globe_with_meridians:
 
 ![Diagram of components](./pictures/diagram.png "Status of K8s deployment (success)")
