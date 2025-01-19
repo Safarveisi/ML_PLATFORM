@@ -36,12 +36,12 @@ This will save `config` file in `~/.kube/` (note that existing `config` file wil
 
 [1] Navigate to the following directories one by one and use `task build-container-image-multi-arch` to build a multi arch image and push it to `docker.io` registery.
 
-> [!Note]
-> Make sure you have a builder instance with driver of type docker-container. Otherwise, `docker buildx` fails. 
-
 * `deploy/k8s/postgres`
 * `deploy/k8s/apps/python-api`
 * `deploy/k8s/apps/streamlit`
+
+> [!Note]
+> Make sure you have a builder instance with driver of type docker-container. Otherwise, `docker buildx` fails. 
 
 [2] Navigate to `deploy/k8s` directory and create the Kubernetes resources by running
 
@@ -50,6 +50,17 @@ task apply-all
 ``` 
 > [!Note]
 > You can also navigate to the directories listed above and execute tasks manually. To get the list of tasks, run `tl` (an alias for `task --list`) . You can then execute a task by `task <task-name>`
+
+
+[3] Add the external ip of the load balancer to `/etc/hosts` of your machine and use `ionos.ingress-nginx.com` as for the the hostname. You can use a different hostname, but you need to make sure to modify the manifest files where needed. 
+
+To get the external ip address, run
+
+```bash
+kubectl get svc -n ingress-nginx
+```
+
+[4] You can now make an API request to http://ionos.ingress-nginx.com/fast/python-api/ with the parameter `select-api?api_name=node`. FastAPI will handle the request and store the request parameter, `api_name=node`, along with its timestamp, in a PostgreSQL table (public.request). Additionally, you can access the `Streamlit` dashboard by navigating to http://ionos.ingress-nginx.com/streamlit/.
 
 # System 
 
