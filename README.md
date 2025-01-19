@@ -60,7 +60,7 @@ To get the external ip address, run
 kubectl get svc -n ingress-nginx
 ```
 
-::four:: You can now make an API request to http://ionos.ingress-nginx.com/fast/python-api/ with the parameter `select-api?api_name=node`. FastAPI will handle the request and store the request parameter, `api_name=node`, along with its timestamp, in a PostgreSQL table (public.request). Additionally, you can access the `Streamlit` dashboard by navigating to http://ionos.ingress-nginx.com/streamlit/.
+:sunglasses: You can now make an API request to http://ionos.ingress-nginx.com/fast/python-api/ with the parameter `select-api?api_name=node`. FastAPI will handle the request and store the request parameter, `api_name=node`, along with its timestamp, in a PostgreSQL table (public.request). Additionally, you can access the `Streamlit` dashboard by navigating to http://ionos.ingress-nginx.com/streamlit/.
 
 # System 
 
