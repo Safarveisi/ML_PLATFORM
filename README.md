@@ -30,7 +30,7 @@ You can now acquire the provisioned Kubernetes cluster's config file by running
 poetry run python helper/get_k8s_config.py 
 ```
 
-This will save `config` file in `~/.kube/` (note that existing `config` file will be replaced). You can modify the python module to suit your needs (e.g., put the `config` file in an arbitrary location).
+This will save `config` file in `~/.kube/` (note that existing `config` file will be replaced). You can modify the python module to suit your needs (e.g., put the `config` file in an arbitrary location). Both `kubectl` and `k9s` will search for the config file in this location to authenticate themselves with our Kubernetes cluster. 
 
 ## Usage :unlock:
 
@@ -51,6 +51,7 @@ task apply-all
 > [!Note]
 > You can also navigate to the directories listed above and execute tasks manually. To get the list of tasks, run `tl` (an alias for `task --list`) . You can then execute a task by `task <task-name>`
 
+You can use `k9s` to see the status of deployments and the pods' log. 
 
 :three: Add the external ip of the load balancer to `/etc/hosts` of your machine and use `ionos.ingress-nginx.com` as for the the hostname. You can use a different hostname, but you need to make sure to modify the manifest files where needed. 
 
