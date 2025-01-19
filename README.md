@@ -34,7 +34,7 @@ This will save `config` file in `~/.kube/` (note that existing `config` file wil
 
 ## Usage 
 
-::one:: Navigate to the following directories one by one and use `task build-container-image-multi-arch` to build a multi arch image and push it to `docker.io` registery.
+:one: Navigate to the following directories one by one and use `task build-container-image-multi-arch` to build a multi arch image and push it to `docker.io` registery.
 
 * `deploy/k8s/postgres`
 * `deploy/k8s/apps/python-api`
@@ -43,7 +43,7 @@ This will save `config` file in `~/.kube/` (note that existing `config` file wil
 > [!Note]
 > Make sure you have a builder instance with driver of type docker-container. Otherwise, `docker buildx` fails. 
 
-::two:: Navigate to `deploy/k8s` directory and create the Kubernetes resources by running
+:two: Navigate to `deploy/k8s` directory and create the Kubernetes resources by running
 
 ```bash
 task apply-all
@@ -52,7 +52,7 @@ task apply-all
 > You can also navigate to the directories listed above and execute tasks manually. To get the list of tasks, run `tl` (an alias for `task --list`) . You can then execute a task by `task <task-name>`
 
 
-::three:: Add the external ip of the load balancer to `/etc/hosts` of your machine and use `ionos.ingress-nginx.com` as for the the hostname. You can use a different hostname, but you need to make sure to modify the manifest files where needed. 
+:three: Add the external ip of the load balancer to `/etc/hosts` of your machine and use `ionos.ingress-nginx.com` as for the the hostname. You can use a different hostname, but you need to make sure to modify the manifest files where needed. 
 
 To get the external ip address, run
 
