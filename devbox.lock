@@ -1,54 +1,6 @@
 {
   "lockfile_version": "1",
   "packages": {
-    "docker@27.4.1": {
-      "last_modified": "2025-01-05T01:56:15Z",
-      "resolved": "github:NixOS/nixpkgs/bf689c40d035239a489de5997a4da5352434632e#docker",
-      "source": "devbox-search",
-      "version": "27.4.1",
-      "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/2vs6bvpsd87kkgnhwlap1lgy368bv454-docker-27.4.1",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/2vs6bvpsd87kkgnhwlap1lgy368bv454-docker-27.4.1"
-        },
-        "aarch64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/3xg1mlg7z33xh5zimqcgyd60i9qqa4fq-docker-27.4.1",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/3xg1mlg7z33xh5zimqcgyd60i9qqa4fq-docker-27.4.1"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/wlp1g7nsd6gzih83mh3j9y51awcjvqri-docker-27.4.1",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/wlp1g7nsd6gzih83mh3j9y51awcjvqri-docker-27.4.1"
-        },
-        "x86_64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/jsd390k2ryj5c8ibqxap7ln6ms7rkxzw-docker-27.4.1",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/jsd390k2ryj5c8ibqxap7ln6ms7rkxzw-docker-27.4.1"
-        }
-      }
-    },
     "go-task@latest": {
       "last_modified": "2024-12-23T21:10:33Z",
       "resolved": "github:NixOS/nixpkgs/de1864217bfa9b5845f465e771e0ecb48b30e02d#go-task",
