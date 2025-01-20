@@ -18,10 +18,11 @@ terraform apply
 It will take some time to create the resources. 
 
 > [!Note]
-> You can use other providers for terraform in order to create a Kubernetes cluster. In this case, you need to modify 
-> `main.tf` or other files with `.tf` extension. You can visit [ionos-cloud](https://registry.terraform.io/providers/ionos-cloud/ionoscloud/latest/docs)
-> to learn more about this provider. If you choose another provider, you may not need
-> `helper/get_k8s_config.py` anymore. 
+> To create a Kubernetes cluster, you can also use other Terraform providers. If you decide to do so,
+> you'll need to update `main.tf` or any other files with the `.tf` extension in `/terraform`. You can visit
+> [ionos-cloud](https://registry.terraform.io/providers/ionos-cloud/ionoscloud/latest/docs) for more information 
+> about the current provider. Additionally, if you opt for a different provider, the `helper/get_k8s_config.py`
+> script might no longer be necessary.
 
 ### Setup the python virtual env
 In the project root directory, run
