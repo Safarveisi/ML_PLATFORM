@@ -39,7 +39,7 @@ poetry run python helper/get_k8s_config.py
 
 This will save `config` file in `~/.kube/` (note that existing `config` file will be replaced). You can modify the python module to suit your needs (e.g., put the `config` file in an arbitrary location). Both `kubectl` and `k9s` will search for the config file in this location to authenticate themselves with our Kubernetes cluster. 
 
-[!CAUTION]
+[!Caution]
 > Make sure the `config` file is not tracked by git. 
 
 ## Usage :unlock:
