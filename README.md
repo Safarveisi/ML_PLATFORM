@@ -41,7 +41,7 @@ This will save `config` file in `~/.kube/` (note that existing `config` file wil
 * `deploy/k8s/apps/streamlit`
 
 > [!Note]
-> Make sure you have a builder instance with driver of type docker-container. Otherwise, `docker buildx` fails. 
+> Make sure you have a builder instance with driver of type docker-container. Otherwise, `docker buildx build` fails. 
 
 :two: Navigate to `deploy/k8s` directory and create the Kubernetes resources by running
 
