@@ -79,4 +79,4 @@ kubectl get svc -n ingress-nginx
 
 # System :globe_with_meridians:
 
-![Diagram of components](./pictures/diagram.png "Status of K8s deployment (success)")
+![Diagram of components](./pictures/diagram.png)
