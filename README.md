@@ -1,7 +1,6 @@
 # Kubernetes microservices
 
-Here's an example of deploying various services on a Kubernetes cluster, such as a FastAPI web service and a Streamlit dashboard. This setup utilizes an Nginx controller as an ingress resource to route traffic to the appropriate service based on the originating endpoint. You can refer to `/deploy/k8s/common/ingress.yml` for more details.
-
+Here's an example of deploying various services on a Kubernetes cluster, such as a FastAPI web service and a Streamlit dashboard. This setup utilizes an Nginx controller as an ingress resource to route traffic to the appropriate service based on the originating endpoint. You can refer to `/deploy/k8s/common/ingress.yml` for more details. 
 
 # Prerequisites :hammer_and_wrench:
 
@@ -50,6 +49,8 @@ This will save `config` file in `~/.kube/` (note that existing `config` file wil
 * `deploy/k8s/apps/python-api`
 * `deploy/k8s/apps/streamlit`
 
+We aimed to follow best practices when writing the Dockerfiles.
+
 > [!Note]
 > Make sure you have a builder instance with driver of type docker-container. Otherwise, `docker buildx build` fails. 
 
@@ -58,6 +59,9 @@ This will save `config` file in `~/.kube/` (note that existing `config` file wil
 ```bash
 task apply-all
 ``` 
+
+Again, we adhered to best practices when creating the manifest files for deploying the apps (python-api and Streamlit).
+
 > [!Note]
 > You can also navigate to the directories listed above and execute tasks manually. To get the list of tasks, run `tl` (an alias for `task --list`) . You can then execute a task by `task <task-name>`
 
