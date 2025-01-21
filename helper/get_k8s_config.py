@@ -1,3 +1,5 @@
+# This module is useful only if you are using ionos-cloud provider for terraform
+
 import os
 import argparse
 import requests

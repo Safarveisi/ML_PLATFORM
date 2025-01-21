@@ -33,6 +33,7 @@ jobs:
         run: |
           image_tag=$(task generate-version-tag)
           echo "image_tag=$image_tag" >> $GITHUB_OUTPUT
+          echo "$image_tag"
 
   build-tag-push:
     runs-on: ubuntu-24.04
