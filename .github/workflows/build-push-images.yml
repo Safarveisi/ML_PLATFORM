@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - "[0-9]*.[0-9]*.[0-9]*"
-
 jobs:
   generate-image-tag:
     runs-on: ubuntu-24.04
@@ -14,7 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Necessary to get all tags for IMAGE_TAG generation with git describe
           fetch-depth: 0
 
       - name: Install Task
@@ -38,7 +36,6 @@ jobs:
         path:
           - deploy/k8s/apps/python-api
           - deploy/k8s/apps/streamlit
-          - deploy/k8s/postgres
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -67,3 +64,31 @@ jobs:
         working-directory: ${{ matrix.path }}
         run: |
           task build-container-image-multi-arch IMAGE_TAG=${IMAGE_TAG}
+
+  update-tags:
+    runs-on: ubuntu-24.04
+    needs: [generate-image-tag, build-tag-push]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+
+      - name: Update Image Tags
+        working-directory: cicd/github-actions
+        env:
+          IMAGE_TAG: ${{ needs.generate-image-tag.outputs.image_tag }}
+        run: |
+          task update-image-tags NEW_TAG=${IMAGE_TAG}            
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          base: master
+          branch: new_image_tag
+          delete-branch: true
+          token: ${{ secrets.K8S_MICROSERVICE_FG_PAT }}
+          title: "Update image tags to ${{ needs.generate-image-tag.outputs.image_tag }}"

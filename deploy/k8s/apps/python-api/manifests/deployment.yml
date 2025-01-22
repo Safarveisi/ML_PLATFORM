@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: python-api
-          image: docker.io/ciaa/python-api:mypassword
+          image: docker.io/ciaa/python-api:mypassword # LATEST_IMAGE_TAG
           imagePullPolicy: Always
           envFrom:
             - secretRef:
