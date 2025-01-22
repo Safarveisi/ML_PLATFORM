@@ -1,9 +1,14 @@
 name: image-ci
-
 on:
   push:
+    branches:
+      - "master"
     tags:
       - "[0-9]*.[0-9]*.[0-9]*"
+    paths:
+      - "deploy/k8s/apps/**/*"
+    paths-ignore:
+      - "deploy/k8s/apps/**/manifests/deployment.yml"
 jobs:
   generate-image-tag:
     runs-on: ubuntu-24.04
@@ -66,6 +71,7 @@ jobs:
           task build-container-image-multi-arch IMAGE_TAG=${IMAGE_TAG}
 
   update-tags:
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
     runs-on: ubuntu-24.04
     needs: [generate-image-tag, build-tag-push]
     steps:
