@@ -10,6 +10,7 @@ postgres_handler = PostgresHandler()
 async def health_check() -> Response:
     return Response(content="ok", status_code=200)
 
+# API endpoint
 @app.get("/select-api")
 async def postgres_write(api_name: str) -> None:
     if api_name.lower() in ("go", "node"):
