@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: streamlit
-          image: docker.io/ciaa/streamlit:4.0.0 # LATEST_IMAGE_TAG
+          image: docker.io/ciaa/streamlit:1.0.0 # LATEST_IMAGE_TAG
           imagePullPolicy: Always
           envFrom:
             - secretRef:
