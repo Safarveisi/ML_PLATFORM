@@ -1,0 +1,52 @@
+version: '3'
+
+vars:
+  IMAGE_NAME: ciaa/data_platform_spark
+  IMAGE_TAG: added-require
+
+tasks:
+
+  build-container-image:
+    desc: Build container image
+    cmds:
+      - docker build -t {{.IMAGE_NAME}}:{{.IMAGE_TAG}} .
+    requires:
+      vars: [IMAGE_NAME, IMAGE_TAG]
+  
+  push-container-image:
+    desc: Push recently built container image
+    cmds:
+      - docker push {{.IMAGE_NAME}}:{{.IMAGE_TAG}}
+    requires:
+      vars: [IMAGE_NAME, IMAGE_TAG]
+
+  create-configmap:
+    desc: Create a config map in the cluster
+    cmds:
+      - |
+        kubectl create configmap job-python-script --from-file=script.py \
+            --namespace=default --dry-run=client --output yaml > configmap.yml
+  apply:
+    desc: Deploy the Spark application in the cluster
+    cmds:
+      - task: create-configmap
+      - kubectl apply -f configmap.yml
+      - kubectl apply -f spark.yml
+
+  delete:
+    desc: Delete the spark application from the cluster
+    cmds:
+      - kubectl delete -f configmap.yml
+      - kubectl delete -f spark.yml
+
+  build-container-image-multi-arch:
+    desc: Build multi-arch container image (assuming that a build instance is availabe)
+    cmds:
+      - |
+        docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        -t {{.IMAGE_NAME}}:{{.IMAGE_TAG}} \
+        --push \
+        .
+    requires:
+      vars: [IMAGE_NAME, IMAGE_TAG]

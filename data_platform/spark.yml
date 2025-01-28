@@ -1,0 +1,40 @@
+---
+apiVersion: spark.stackable.tech/v1alpha1
+kind: SparkApplication
+metadata:
+  name: pyspark-ml-platform
+  namespace: default
+spec:
+  sparkImage:
+    custom: ciaa/data_platform_spark:added-require
+    productVersion: 3.5.2
+    pullPolicy: Always
+  mode: cluster
+  mainApplicationFile: local:///stackable/ml_platform/script.py
+  volumes:
+    - name: job-python-script
+      configMap:
+        name: job-python-script
+  driver:
+    config:
+      resources:
+        cpu:
+          min: "1"
+          max: "2"
+        memory:
+          limit: "1Gi"
+      volumeMounts:
+        - name: job-python-script
+          mountPath: stackable/ml_platform
+  executor:
+    replicas: 1
+    config:
+      resources:
+        cpu:
+          min: "1"
+          max: "2"
+        memory:
+          limit: "1Gi"
+      volumeMounts:
+        - name: job-python-script
+          mountPath: stackable/ml_platform
