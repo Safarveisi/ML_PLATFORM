@@ -7,9 +7,9 @@ vars:
 tasks:
 
   build-container-image:
-    desc: Build container image
+    desc: Build container image and save the logs in a file (helps debugging)
     cmds:
-      - docker build -t {{.IMAGE_NAME}}:{{.IMAGE_TAG}} .
+      - docker build . --no-cache --progress=plain -t {{.IMAGE_NAME}}:{{.IMAGE_TAG}} &> build.log
     requires:
       vars: [IMAGE_NAME, IMAGE_TAG]
   
@@ -31,7 +31,7 @@ tasks:
     cmds:
       - task: create-configmap
       - kubectl apply -f configmap.yml
-      - kubectl apply -f spark.yml
+      - envsubst < spark.yml | kubectl apply -f -
 
   delete:
     desc: Delete the spark application from the cluster

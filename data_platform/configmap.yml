@@ -22,7 +22,7 @@ data:
         .when(col("age").between(13, 19), "teenager")
         .otherwise("adult"),
     )
-    df1.show()
+    df1.write.parquet("s3a://customerintelligence/ml_platform/test", mode="overwrite")
 
     mlflow.set_tracking_uri("http://ip:5000")
     print(f"The Mlflow tracking uri is: {mlflow.get_tracking_uri()}")

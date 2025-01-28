@@ -10,6 +10,15 @@ spec:
     pullPolicy: Always
   mode: cluster
   mainApplicationFile: local:///stackable/ml_platform/script.py
+  sparkConf:
+    spark.hadoop.fs.s3a.aws.credentials.provider: "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
+    spark.hadoop.fs.s3a.path.style.access: "true"
+    spark.hadoop.fs.s3a.access.key: "${CUSTOM_S3_ACCESS_KEY}"
+    spark.hadoop.fs.s3a.secret.key: "${CUSTOM_S3_SECRET_KEY}"
+    spark.hadoop.fs.s3a.endpoint: "${CUSTOM_S3_ENDPOINT}"
+    spark.hadoop.fs.s3a.connection.ssl.enabled: "false"
+    spark.hadoop.fs.s3a.impl: "org.apache.hadoop.fs.s3a.S3AFileSystem"
+    spark.hadoop.fs.s3a.endpoint.region: "${CUSTOM_S3_ENDPOINT_REGION}"
   volumes:
     - name: job-python-script
       configMap:
