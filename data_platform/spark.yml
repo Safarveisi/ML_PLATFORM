@@ -35,7 +35,7 @@ spec:
         - name: job-python-script
           mountPath: stackable/ml_platform
   executor:
-    replicas: 2
+    replicas: 1
     config:
       resources:
         cpu:

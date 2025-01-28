@@ -1,3 +1,4 @@
+import os
 from pyspark.sql import SparkSession
 
 from pyspark.ml import Pipeline
@@ -58,7 +59,7 @@ prediction = cvModel.transform(test)
 selected = prediction.select("id", "text", "probability", "prediction")
 
 # Write the predictions into S3
-selected.write.parquet("s3a://customerintelligence/ml_platform/predictions", mode="overwrite")
+selected.write.parquet("s3a://${CUSTOM_S3_BUCKET}/ml_platform/predictions", mode="overwrite")
 
 for row in selected.collect():
     print(row)

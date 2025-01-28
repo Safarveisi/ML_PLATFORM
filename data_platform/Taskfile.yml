@@ -30,7 +30,7 @@ tasks:
     desc: Deploy the Spark application in the cluster
     cmds:
       - task: create-configmap
-      - kubectl apply -f configmap.yml
+      - envsubst < configmap.yml | kubectl apply -f -
       - envsubst < spark.yml | kubectl apply -f -
 
   delete:
