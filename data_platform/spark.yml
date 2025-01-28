@@ -35,14 +35,14 @@ spec:
         - name: job-python-script
           mountPath: stackable/ml_platform
   executor:
-    replicas: 1
+    replicas: 2
     config:
       resources:
         cpu:
           min: "1"
           max: "2"
         memory:
-          limit: "1Gi"
+          limit: "2Gi"
       volumeMounts:
         - name: job-python-script
           mountPath: stackable/ml_platform

@@ -38,6 +38,12 @@ tasks:
     cmds:
       - kubectl delete -f configmap.yml
       - kubectl delete -f spark.yml
+  
+  driver-logs:
+    desc: Print Spark application driver logs
+    cmds:
+      - |
+        kubectl logs "$(kubectl get pods -o name | awk '/-driver$/ {print $1; exit}')" 
 
   build-container-image-multi-arch:
     desc: Build multi-arch container image (assuming that a build instance is availabe)
