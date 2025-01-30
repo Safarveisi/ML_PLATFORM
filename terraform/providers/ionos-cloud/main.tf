@@ -34,8 +34,8 @@ resource "ionoscloud_k8s_node_pool" "example" {
   cpu_family            = "INTEL_SKYLAKE"
   availability_zone     = "AUTO"
   storage_type          = "SSD"
-  node_count            = 2
-  cores_count           = 4
+  node_count            = 3
+  cores_count           = 8
   ram_size              = 30720
-  storage_size          = 50
+  storage_size          = 100
 }
