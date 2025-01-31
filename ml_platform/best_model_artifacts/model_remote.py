@@ -27,7 +27,9 @@ class Settings(BaseSettings):
     def model_key(self) -> str:
         return f"ml_platform/mlartifacts/{self.experiment_id}/{self.run_id}/artifacts/iris_xgb/model.json"
 
+
 settings = Settings()
+
 
 # The model handle name should match the model endpoint name
 @serve.deployment(name="custom-model", num_replicas=1)
@@ -39,18 +41,18 @@ class XGBoostModel(Model):
 
     def download_xgb_model_from_s3(self) -> None:
         s3 = boto3.client(
-            service_name='s3',
+            service_name="s3",
             region_name=settings.s3_region,
             aws_access_key_id=settings.aws_access_key_id,
             aws_secret_access_key=settings.aws_secret_access_key,
-            endpoint_url=settings.s3_endpoint_url
+            endpoint_url=settings.s3_endpoint_url,
         )
         self.model = xgb.XGBClassifier()
         with tempfile.NamedTemporaryFile("wb") as f:
             s3.download_fileobj(settings.s3_bucket, settings.model_key, f)
             f.seek(0)
             self.model.load_model(f.name)
-        
+
         self.ready = True
 
     async def predict(self, payload: Dict, headers: Dict[str, str] = None) -> Dict:
