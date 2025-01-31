@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -H "Content-Type: application/json" localhost:8080/v1/models/custom-model:predict -d @./input.json
