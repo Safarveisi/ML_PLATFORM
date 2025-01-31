@@ -14,7 +14,7 @@ from kserve import Model, ModelServer, model_server
 from kserve.ray import RayModel
 
 
-class Settings(BaseSettings):
+class EnvSettings(BaseSettings):
     aws_access_key_id: str
     aws_secret_access_key: str
     s3_endpoint_url: str
@@ -27,19 +27,17 @@ class Settings(BaseSettings):
     def model_key(self) -> str:
         return f"ml_platform/mlartifacts/{self.experiment_id}/{self.run_id}/artifacts/iris_xgb/model.json"
 
+settings = EnvSettings()
 
-settings = Settings()
 
-
-# The model handle name should match the model endpoint name
 @serve.deployment(name="custom-model", num_replicas=1)
 class XGBoostModel(Model):
     def __init__(self, name):
         super().__init__(name)
         self.ready = False
-        self.download_xgb_model_from_s3()
+        self.download_xgb_model()
 
-    def download_xgb_model_from_s3(self) -> None:
+    def download_xgb_model(self) -> None:
         s3 = boto3.client(
             service_name="s3",
             region_name=settings.s3_region,
