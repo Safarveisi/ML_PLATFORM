@@ -1,0 +1,45 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: s3creds
+  namespace: default
+  annotations:
+     serving.kserve.io/s3-endpoint: ${CUSTOM_S3_ENDPOINT}
+     serving.kserve.io/s3-usehttps: "1"
+     serving.kserve.io/s3-region: ${CUSTOM_S3_ENDPOINT_REGION}
+     serving.kserve.io/s3-useanoncredential: "false"
+type: Opaque
+stringData:
+  AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+  AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sa
+  namespace: default
+  annotations:
+     serving.kserve.io/s3-endpoint: ${CUSTOM_S3_ENDPOINT}
+     serving.kserve.io/s3-usehttps: "1"
+     serving.kserve.io/s3-region: ${CUSTOM_S3_ENDPOINT_REGION}
+     serving.kserve.io/s3-useanoncredential: "false"
+secrets:
+  - name: s3creds
+---
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: iris-classifier
+  namespace: default
+  annotations:
+    autoscaling.knative.dev/minScale: "1"
+    autoscaling.knative.dev/maxScale: "3"
+spec:
+  predictor:
+    serviceAccountName: sa
+    model:
+      modelFormat:
+        name: mlflow
+      protocolVersion: v2
+      storageUri: s3://customerintelligence/ml_platform/mlartifacts/1/ca1b0f2603494e489c589f45dbaf547f/artifacts/iris_xgb

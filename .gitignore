@@ -4,3 +4,4 @@ config
 */**/*.db
 *.txt
 scripts
+*.tar.gz

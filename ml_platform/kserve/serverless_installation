@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Knative
+
+kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.17.0/serving-crds.yaml
+kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.17.0/serving-core.yaml
+
+
+#  Networking layer (Istio)
+
+kubectl apply -l knative.dev/crd-install=true -f https://github.com/knative/net-istio/releases/download/knative-v1.17.0/istio.yaml
+kubectl apply -f https://github.com/knative/net-istio/releases/download/knative-v1.17.0/istio.yaml
+kubectl apply -f https://github.com/knative/net-istio/releases/download/knative-v1.17.0/net-istio.yaml
+
+## Fetch the External IP address (you will need it later to make inference)
+
+kubectl --namespace istio-system get service istio-ingressgateway
+
+
+
+# Cert manager
+
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.3/cert-manager.yaml
+
+
+
+# Install Kserve (Do not run the following lines together)
+
+## Install KServe CRDs and Controller 
+
+kubectl apply --server-side -f https://github.com/kserve/kserve/releases/download/v0.14.1/kserve.yaml
+
+## Install KServe Built-in ClusterServingRuntimes 
+
+kubectl apply --server-side -f https://github.com/kserve/kserve/releases/download/v0.14.1/kserve-cluster-resources.yaml
