@@ -18,7 +18,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-          audience:  ${{ secrets.S3_ENDPOINT_URL }}
+          special-characters-workaround: true
 
       - name: Install miniconda
         uses: conda-incubator/setup-miniconda@v3
@@ -37,3 +37,4 @@ jobs:
             source run_spec # Register EXPERIMENT_ID and RUN_ID as env variables
             aws s3 cp environment.tar.gz \
                 s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/test.tar.gz
+                --endpoint-url ${S3_ENDPOINT_URL}
