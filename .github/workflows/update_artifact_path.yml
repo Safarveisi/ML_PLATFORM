@@ -26,4 +26,4 @@ jobs:
         run: |
             conda-pack -o environment.tar.gz -f
             source run_spec # Register EXPERIMENT_ID and RUN_ID as env variables
-            echo "done"
+            echo "$EXPERIMENT_ID"
