@@ -15,9 +15,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+          aws-access-key-id: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          aws-secret-access-key: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          aws-region: "${{ secrets.AWS_DEFAULT_REGION }}"
      
       - name: Install miniconda
         uses: conda-incubator/setup-miniconda@v3
@@ -29,7 +29,7 @@ jobs:
       - name: Make a Tarball of the Environment and Push it to S3
         working-directory: ml_platform/best_model_artifacts
         env:
-            S3_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
+            S3_ENDPOINT_URL: "${{ secrets.S3_ENDPOINT_URL }}"
         shell: bash -l {0}
         run: |
             conda-pack -o environment.tar.gz -f
