@@ -1,3 +1,0 @@
-#!/bin/bash
-
-pack build ciaa/custom-model:v1 --builder=heroku/builder:24
