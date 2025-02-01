@@ -16,6 +16,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with: 
             auto-activate-base: false
+            channels: conda-forge,defaults
             environment-file: ml_platform/best_model_artifacts/conda.yaml
             activate-environment: mlflow-env
 
