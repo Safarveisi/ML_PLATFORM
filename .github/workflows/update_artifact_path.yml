@@ -11,10 +11,6 @@ jobs:
     steps:
       - name: Check Out Code
         uses: actions/checkout@v4
-
-      - name: Install AWS CLI
-        run: |
-          pip install --upgrade awscli
     
       - name: Configure AWS Environment Variables
         run: |
@@ -39,5 +35,5 @@ jobs:
             conda-pack -o environment.tar.gz -f
             source run_spec # Register EXPERIMENT_ID and RUN_ID as env variables
             aws s3 cp environment.tar.gz \
-                s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/test.tar.gz
+                s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/
                 --endpoint-url ${S3_ENDPOINT_URL}
