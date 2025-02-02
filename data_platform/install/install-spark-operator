@@ -6,7 +6,7 @@ version=${1:-$DEFAULT_VERSION}
 
 #####################################################################################
 ## Installs Stackable operator for Spark on K8s along with its dependencies        ## 
-## https://docs.stackable.tech/home/stable/spark-k8s/getting_started/installation/ ##                                               ##
+## https://docs.stackable.tech/home/stable/spark-k8s/getting_started/installation/ ##
 #####################################################################################
 
 stackablectl operator install \
