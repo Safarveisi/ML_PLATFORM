@@ -13,41 +13,9 @@ env:
   mlflow_artifactory_root_path: ml_platform/mlartifacts # mlflow server s3 root path 
 
 jobs:
-    mlflow-environment-artifact:
-        runs-on: ubuntu-24.04
-        steps:
-        - name: Check Out Code
-          uses: actions/checkout@v4
-        
-        - name: Set up miniconda
-          uses: conda-incubator/setup-miniconda@v3
-          with: 
-            auto-activate-base: false
-            channels: conda-forge,defaults
-            environment-file: ${{ env.best_model_directory }}/conda.yaml
-            activate-environment: mlflow-env
-
-        - name: Make a Tarball of the Environment and Push it to S3
-          working-directory: ${{ env.best_model_directory }}
-          shell: bash -l {0}
-          run: |
-            # Pack the activated conda env into a tarball
-            conda-pack -o environment.tar.gz -f
-            # Update .s3cfg with the secret values (e.g., AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY)
-            ./s3_config ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-                        ${{ secrets.S3_ENDPOINT_URL }} ${{ secrets.BUCKET_LOCATION }}
-            
-            # Register EXPERIMENT_ID and RUN_ID as env variables
-            source run_spec
-            # Install s3cmd CLI to interact with the mlflow s3 artifact store
-            pip install s3cmd==2.4.0
-            # Put the tarball in the best model's artifactory path
-            s3cmd -c ./.s3cfg put environment.tar.gz s3://customerintelligence/${{ env.mlflow_artifactory_root_path }}/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/environment.tar.gz
-
     deploy-to-kserve:
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         runs-on: ubuntu-24.04
-        needs: [mlflow-environment-artifact]
         steps:
             - name: Check Out Code
               uses: actions/checkout@v4
@@ -68,8 +36,8 @@ jobs:
                 AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 S3_REGION: ${{ secrets.S3_REGION }}
               run: |
-                source run_spec
-                envsubst < mlflow.yml | kubectl apply -f -
+                source ${{ env.best_model_directory}}/run_spec
+                envsubst < ${{ env.kserve_directory }}/mlflow.yml | kubectl apply -f -
                  
             
             
