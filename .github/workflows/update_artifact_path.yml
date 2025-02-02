@@ -27,8 +27,7 @@ jobs:
         shell: bash -l {0}
         run: |
             conda-pack -o environment.tar.gz -f
-            echo "EXPERIMENT_ID=1" >> $GITHUB_ENV
-            echo "RUN_ID=ca1b0f2603494e489c589f45dbaf547f" >> $GITHUB_ENV
+            source run_spec # Register EXPERIMENT_ID and RUN_ID as env variables
       
       - name: Run S3cmd
         uses: edjufy/s3cmd-github-action@v1.1.1
@@ -36,7 +35,7 @@ jobs:
             s3cmd_command: |
                 put ml_platform/best_model_artifacts/environment.tar.gz \
                  s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/environment.tar.gz
-            access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            access_key: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+            secret_key: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
             host_base: "${{ secrets.S3_ENDPOINT_URL }}"
             bucket_location: "${{ secrets.AWS_DEFAULT_REGION }}"
