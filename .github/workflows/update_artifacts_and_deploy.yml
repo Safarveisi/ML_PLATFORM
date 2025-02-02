@@ -29,7 +29,6 @@ jobs:
                 kubeconfig: ${{ secrets.KUBECONFIG }}
 
             - name: Deploy the best mlflow model to Kserve
-              working-directory: ${{ env.kserve_directory }}
               env:
                 S3_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
                 AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
