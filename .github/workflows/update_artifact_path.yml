@@ -33,9 +33,8 @@ jobs:
         uses: edjufy/s3cmd-github-action@v1.1.1
         with:
             s3cmd_command: |
-                put ml_platform/best_model_artifacts/environment.tar.gz \
-                 s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/environment.tar.gz
-            access_key: "${{ secrets.AWS_ACCESS_KEY_ID }}"
-            secret_key: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-            host_base: "${{ secrets.S3_ENDPOINT_URL }}"
-            bucket_location: "${{ secrets.AWS_DEFAULT_REGION }}"
+                'put ml_platform/best_model_artifacts/environment.tar.gz s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/environment.tar.gz'
+            access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            host_base: ${{ secrets.S3_ENDPOINT_URL }}
+            bucket_location: 'EU'
