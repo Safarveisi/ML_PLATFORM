@@ -9,7 +9,7 @@ on:
 
 env:
   best_model_directory: ml_platform/best_model_artifacts # metadata and artifactory for the best mlflow run
-  kserve_directory: ml_platform/best_model_artifacts/inference_service # Kserve manifest files 
+  kserve_directory: inference_service # Kserve manifest files 
   mlflow_artifactory_root_path: ml_platform/mlartifacts # mlflow server s3 root path 
 
 jobs:
@@ -29,13 +29,14 @@ jobs:
                 kubeconfig: ${{ secrets.KUBECONFIG }}
 
             - name: Deploy the best mlflow model to Kserve
+              working-directory: ${{ env.best_model_directory}}
               env:
                 S3_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
                 AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
                 AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 S3_REGION: ${{ secrets.S3_REGION }}
               run: |
-                source ${{ env.best_model_directory}}/run_spec
+                source run_spec
                 envsubst < ${{ env.kserve_directory }}/mlflow.yml | kubectl apply -f -
                  
             
