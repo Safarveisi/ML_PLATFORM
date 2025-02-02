@@ -1,7 +1,7 @@
 apiVersion: spark.stackable.tech/v1alpha1
 kind: SparkApplication
 metadata:
-  name: pyspark-ml-platform
+  name: pyspark-data-platform
   namespace: default
 spec:
   sparkImage:
@@ -9,7 +9,7 @@ spec:
     productVersion: 3.5.2
     pullPolicy: Always
   mode: cluster
-  mainApplicationFile: local:///stackable/ml_platform/script.py
+  mainApplicationFile: local:///stackable/data_platform/script.py
   sparkConf:
     spark.hadoop.fs.s3a.aws.credentials.provider: "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
     spark.hadoop.fs.s3a.path.style.access: "true"
@@ -33,7 +33,7 @@ spec:
           limit: "1Gi"
       volumeMounts:
         - name: job-python-script
-          mountPath: stackable/ml_platform
+          mountPath: stackable/data_platform
   executor:
     replicas: 1
     config:
@@ -45,4 +45,4 @@ spec:
           limit: "2Gi"
       volumeMounts:
         - name: job-python-script
-          mountPath: stackable/ml_platform
+          mountPath: stackable/data_platform

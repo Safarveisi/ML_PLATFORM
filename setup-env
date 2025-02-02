@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#########################################################################
+## Sets up the virtual env (necessary to work with Jupyter notebooks). ##
+#########################################################################
+
 # Remove the virtual env created by devbox (after running `devbox shell`) 
 VENV=$(poetry env info -p)
 [[ -d $VENV ]] && rm -rf $VENV

@@ -3,6 +3,7 @@ from pyspark.sql.functions import col, when
 
 spark = SparkSession.builder.appName("MLPlatform").getOrCreate()
 
+# Example of an ETL job (can be anything)
 df = spark.createDataFrame(
     [
         ("sue", 32),

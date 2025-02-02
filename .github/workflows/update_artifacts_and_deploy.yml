@@ -8,11 +8,11 @@ on:
       - "[0-9]*.[0-9]*.[0-9]*"
     
     paths:
-      - "ml_platform/best_model_artifacts/.env_best_run" # when new best model is available
+      - "ml_platform/best_model_artifacts/.env_best_run" # when new best model run id is available
       - "ml_platform/best_model_artifacts/conda.yaml" # when dependencies have changed
 env:
   best_model_directory: ml_platform/best_model_artifacts # metadata and artifactory dir for the best mlflow run
-  mlflow_artifactory_root_path: ml_platform/mlartifacts # mlflow server s3 root path 
+  mlflow_artifactory_prefix: ml_platform/mlartifacts # mlflow server s3 path prefix (see ml_platform/start-mlflow-server) 
 
 jobs:
 
@@ -57,7 +57,7 @@ jobs:
           
           # Put the tarball in the best model's artifactory path
           s3cmd -c ./.s3cfg put environment.tar.gz \
-              s3://customerintelligence/${{ env.mlflow_artifactory_root_path }}/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/environment.tar.gz
+              s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/environment.tar.gz
     
   deploy-to-kserve:
         if: ${{ startsWith(github.ref, 'refs/tags/') }}

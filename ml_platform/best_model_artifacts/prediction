@@ -1,9 +1,13 @@
 #!/bin/bash
 
 #################################################################
-## You should first remove _example from the `data` field in   ##
+## You should first remove `_example` from the `data` field in ##
 ## 'kubectl edit cm config-domain --namespace knative-serving' ##
 #################################################################
+
+################################################################################
+## Run the following after deploying the mlflow model into the Kserve cluster ##
+################################################################################
 
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')

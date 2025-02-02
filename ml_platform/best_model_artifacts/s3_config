@@ -1,5 +1,9 @@
 #!/bin/bash
 
+##########################################################
+## Replaces {{ITEM}} in .s3cfg with user defined inputs ##
+##########################################################
+
 accessKey=$1
 secretKey=$2
 s3EndPoint=$3
