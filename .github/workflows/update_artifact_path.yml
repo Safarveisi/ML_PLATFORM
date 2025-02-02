@@ -22,10 +22,13 @@ jobs:
 
       - name: Make a Tarball of the Environment and Push it to S3
         working-directory: ml_platform/best_model_artifacts
-        env:
-            S3_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
         shell: bash -l {0}
         run: |
             conda-pack -o environment.tar.gz -f
-            pip install s3cmd
-            source run_spec # Register EXPERIMENT_ID and RUN_ID as env variables
+            pip install s3cmd==2.4.0
+            # Update .s3cfg with the secret values (e.g., AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY)
+            ./s3_config ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY }} ${{ secrets.S3_ENDPOINT_URL }} ${{ secrets.BUCKET_LOCATION }}
+            # Register EXPERIMENT_ID and RUN_ID as env variables
+            source run_spec
+            # Put the tarball in the best model's artifactory path
+            s3cmd -c ./.s3cfg put environment.tar.gz s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/environment.tar.gz
