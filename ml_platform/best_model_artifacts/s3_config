@@ -1,12 +1,11 @@
 #!/bin/bash
 
-s3cmdCommand=$1
-accessKey=$2
-secretKey=$3
-hostBase=$4
-bucketLocation=$5
+accessKey=$1
+secretKey=$2
+s3EndPoint=$3
+bucketLocation=$4
 
-sed -i s/{{BUCKET_LOCATION}}/${bucketLocation}/g /github/home/.s3cfg
-sed -i s/{{HOST_BASE}}/${hostBase}/g /github/home/.s3cfg
-sed -i s/{{ACCESS_KEY}}/${accessKey}/g /github/home/.s3cfg
-sed -i s/{{SECRET_KEY}}/${secretKey}/g /github/home/.s3cfg
+sed -i s/{{AWS_ACCESS_KEY_ID}}/${accessKey}/g .s3cfg
+sed -i s\|{{AWS_SECRET_ACCESS_KEY}}\|${secretKey}\|g .s3cfg
+sed -i s/{{S3_ENDPOINT_URL}}/${s3EndPoint}/g .s3cfg
+sed -i s/{{BUCKET_LOCATION}}/${bucketLocation}/g .s3cfg
