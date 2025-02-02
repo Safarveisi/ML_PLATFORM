@@ -5,9 +5,9 @@ metadata:
   name: s3creds
   namespace: default
   annotations:
-     serving.kserve.io/s3-endpoint: ${CUSTOM_S3_ENDPOINT}
+     serving.kserve.io/s3-endpoint: ${S3_ENDPOINT_URL}
      serving.kserve.io/s3-usehttps: "1"
-     serving.kserve.io/s3-region: ${CUSTOM_S3_ENDPOINT_REGION}
+     serving.kserve.io/s3-region: ${S3_REGION}
      serving.kserve.io/s3-useanoncredential: "false"
 type: Opaque
 stringData:
@@ -20,9 +20,9 @@ metadata:
   name: sa
   namespace: default
   annotations:
-     serving.kserve.io/s3-endpoint: ${CUSTOM_S3_ENDPOINT}
+     serving.kserve.io/s3-endpoint: ${S3_ENDPOINT_URL}
      serving.kserve.io/s3-usehttps: "1"
-     serving.kserve.io/s3-region: ${CUSTOM_S3_ENDPOINT_REGION}
+     serving.kserve.io/s3-region: ${S3_REGION}
      serving.kserve.io/s3-useanoncredential: "false"
 secrets:
   - name: s3creds
@@ -42,4 +42,4 @@ spec:
       modelFormat:
         name: mlflow
       protocolVersion: v2
-      storageUri: s3://customerintelligence/ml_platform/mlartifacts/1/ca1b0f2603494e489c589f45dbaf547f/artifacts/iris_xgb
+      storageUri: s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb
