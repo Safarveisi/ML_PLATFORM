@@ -14,12 +14,13 @@ If you’re using a *managed* Kubernetes cluster on IONOS Cloud, you can retriev
 
 The Kubernetes cluster is where our Spark ETL job will be executed and our inference service (`Kserve`) will be located. 
 
-# Repo Structure
+# Repository Structure
 
-Each step has its own directory:
+Each major step of the workflow has its own directory:
 
-* `data_platform`: Pyspark script (sample ETL job), job CRD and installaton of Stackable operators.
-* `ml_platform`: Jupyter notebook where a data scientist runs Ray training and hyperparameter optimization (`ray_tune.ipynb`), installation of serverless Kserve into the Kubernetes cluster, and a special directory called `best_model_artifacts` with the best mlflow run's artifacts (e.g., `conda.yaml` and `.env.best_run`) as well as supplimentary files (e.g., `s3_config` and `.s3cfg`) to be used in CI/CD later on. 
+* `data_platform`: Contains the PySpark script (sample ETL job), the Kubernetes job CRD, and the installation assets for Stackable operators.
+* `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for Ray-based training and hyperparameter optimization, the KServe installation configuration, and a `best_model_artifacts` folder with MLflow artifacts (e.g., `conda.yaml`, `.env.best_run`) for the best mlflow run alongside supplementary files (`s3_config`, `.s3cfg`) used later in CI/CD.
+
 * `.github/workflows`: Workflow for the CI/CD. 
 
 # Workload
