@@ -6,16 +6,16 @@ inputs:
   command:  
     description: 'command to be executed by s3cmd (e.g., "put file.txt s3://my-bucket")'
     required: true
-  access-key:
+  access_key:
     description: 'Access key id'
     required: true
-  secret-key:
+  secret_key:
     description: 'Secret access key'
     required: true
-  endpoint-url:
-    description: 'Endpoint url for the s3 service (e.g., s3-de-central.profitbricks.com)'
+  host_base:
+    description: 'S3 service endpoint url (e.g., s3-de-central.profitbricks.com)'
     required: true
-  bucket-location:
+  bucket_location:
     description: 'Region where your s3 bucket is located (e.g., EU)'
     required: false
     default: ''
@@ -24,7 +24,7 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.command }}
-    - ${{ inputs.access-key }}
-    - ${{ inputs.secret-key }}
-    - ${{ inputs.endpoint-url }}
-    - ${{ inputs.bucket-location }}
+    - ${{ inputs.access_key }}
+    - ${{ inputs.secret_key }}
+    - ${{ inputs.host_base }}
+    - ${{ inputs.bucket_location }}

@@ -43,10 +43,10 @@ jobs:
         uses: ./.github/actions/s3cmd-docker  
         with:
           command: "put ${{ env.best_model_directory }}/environment.tar.gz s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/iris_xgb/environment.tar.gz"
-          access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          endpoint-url: ${{ secrets.S3_ENDPOINT_URL }}
-          bucket-location: ${{ secrets.BUCKET_LOCATION }}
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          host_base: ${{ secrets.S3_ENDPOINT_URL }}
+          bucket_location: ${{ secrets.BUCKET_LOCATION }}
     
   deploy-to-kserve:
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
