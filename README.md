@@ -1,4 +1,4 @@
-# Open ML
+# ML from Development to Deployment
 
 This repository provides an overview of a complete machine learning workflow, from data preprocessing to model deployment on Kubernetes via [KServe](https://github.com/kserve/kserve). The diagram illustrates the major steps and technologies used.
 
