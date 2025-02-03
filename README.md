@@ -27,6 +27,9 @@ Each major step of the workflow has its own directory:
 
 ![platforms](./pictures/stack.png "Workload")
 
+# Task Automation
+
+We suggest using [go-task](https://github.com/go-task/task) for task automation. You can find an example in `data_platform/Taskfile.yml`. Once you activate the `devbox` shell, the `task` command is available. In the same directory, run `tl` to list all tasks along with their descriptions.
 
 # Querying the Inference Service
 
