@@ -11,6 +11,7 @@ RUN apk update && apk add --no-cache python py-pip py-setuptools git ca-certific
     && rm -rf /tmp/s3cmd
 
 COPY ./entrypoint.sh /opt/s3cmd/entrypoint.sh
+RUN chmod u+x /opt/s3cmd/entrypoint.sh
 
 WORKDIR /github/home
 COPY ./.s3cfg .s3cfg
