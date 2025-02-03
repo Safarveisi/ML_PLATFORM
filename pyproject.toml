@@ -1,5 +1,5 @@
 [tool.poetry]
-description = "Python apps on K8s"
+description = "ML from development to deployment"
 authors = ["Sajad Safarveisi"]
 package-mode = false
 
