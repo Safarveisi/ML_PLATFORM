@@ -18,7 +18,7 @@ The Kubernetes cluster is where our Spark ETL job will be executed and our infer
 
 Each major step of the workflow has its own directory:
 
-* `data_platform`: Contains the PySpark script (sample ETL job), the Kubernetes job CRD, and the installation assets for Stackable operators.
+* `data_platform`: Contains the PySpark script (sample ETL job), the Kubernetes job CRD, and the installation assets for [Stackable](https://stackable.tech/en/) operators.
 * `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for Ray-based training and hyperparameter optimization, the KServe installation configuration, and a `best_model_artifacts` folder with MLflow artifacts (e.g., `conda.yaml`, `.env.best_run`) for the best mlflow run alongside supplementary files (`s3_config`, `.s3cfg`) used later in CI/CD.
 
 * `.github/workflows`: Workflow for the CI/CD. 
@@ -27,6 +27,15 @@ Each major step of the workflow has its own directory:
 
 ![platforms](./pictures/stack.png "Workload")
 
+
+# Querying the Inference Service
+
+Use the bash script at `ml_platform/best_model_artifacts/inference_service/prediction` to send a prediction request to the inference service. The `input.json` file in that same folder provides the feature set (`protocolVersion: v2`) for the instance you want the XGBoost model to predict.
+
+> [!Note]
+> Reasoned about Kubernetes configuration editing for a few seconds Before running the inference, modify the configmap
+> called config-domain in the knative-serving namespace of your Kubernetes cluster. Use kubectl edit to remove _example
+> from the data key, and then adjust the indentation for the rest of > the content in that key.
 
 # Contributing
 
