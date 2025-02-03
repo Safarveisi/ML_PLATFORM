@@ -4,11 +4,13 @@ This repository provides an overview of a complete machine learning workflow, fr
 
 # Prerequisites
 
-We use `devbox` to install necessary packages for the project. All the packages are available in `devbox.json`. Apart from that, you need to have `pyenv` installed and install the Python version suggested in `.python-version` (see also `pyproject.toml`). Once the `devbox` shell is activated, you can run `./setup-env` to install the python virtual env. You can then run the jupyter notebooks with its kernel set to the virtual env just created.    
+We use **devbox** to install all required packages listed in `devbox.json`. You also need `pyenv` to manage Python versions—install the version specified in `.python-version` (refer to `pyproject.toml` for details). After activating the devbox shell, run `./setup-env` to set up the Python virtual environment. Finally, launch Jupyter notebooks with the kernel pointing to this newly created environment.   
 
 # Infrastructure
 
-We use terraform to provision a Kubernetes cluster on IONOS cloud. You can choose another provider. In this case, you need to modify the `tf` files in `terraform` directory. Make sure the Kebernetes cluster's `config` file is located in `~/.kube` directory of `/home/user`. If you use a managed Kubernetes cluster on IONOS cloud, you can use the python script in `helper` directory (`helper/get_k8s_config.py`) to get the `config` file of your cluster. For this to work, you need to have the cluster id (you can find it in `terraform.tfstate` after a successful provision) and pass it to `--id`.
+We use **Terraform** to provision a Kubernetes cluster on IONOS Cloud. You may opt for a different cloud provider, but you’ll need to update the Terraform files in the `terraform` directory accordingly. Ensure that your Kubernetes cluster’s `config` file is placed under `~/.kube` in `/home/user`.
+
+If you’re using a *managed* Kubernetes cluster on IONOS Cloud, you can retrieve the cluster’s config file with the `helper/get_k8s_config.py` script. This requires the cluster ID—found in `terraform.tfstate` once provisioning is complete—passed in via the `--id` argument.
 
 The Kubernetes cluster is where our Spark ETL job will be executed and our inference service (`Kserve`) will be located. 
 
