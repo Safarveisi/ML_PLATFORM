@@ -9,9 +9,11 @@ RUN apk update && apk add --no-cache python py-pip py-setuptools git ca-certific
  && ln -s /opt/s3cmd/s3cmd /usr/bin/s3cmd \
  && apk del py-pip py-setuptools git
 
-ADD ./.s3cfg /root/.s3cfg
 ADD ./entrypoint.sh /opt/entrypoint.sh
 
 RUN chmod +x /opt/entrypoint.sh
+
+WORKDIR /github/home
+COPY ./.s3cfg ./.s3cfg
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
