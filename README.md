@@ -1,1 +1,3 @@
-# TO DO
+# Workload
+
+![platforms](./pictures/stack.png "Workload")
