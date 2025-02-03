@@ -15,4 +15,4 @@ echo "host_base=$ENDPOINT_URL" >> "$S3CMD_CONFIG"
 echo "bucket_location=$BUCKET_LOCATION" >> "$S3CMD_CONFIG"
 
 # Run the user-provided s3cmd command (e.g., 'put file.txt s3://my-bucket')
-${S3CMD_PATH} $COMMAND
+${S3CMD_PATH} -c ${S3CMD_CONFIG} $COMMAND
