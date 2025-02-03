@@ -39,7 +39,7 @@ jobs:
           RUN_ID: ${{ env.RUN_ID }}
         run: |
           conda-pack -o environment.tar.gz -f
-
+      
       - name: Upload environment.tar.gz to S3
         uses: ./actions/s3cmd-docker
         with:
