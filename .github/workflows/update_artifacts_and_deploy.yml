@@ -41,7 +41,7 @@ jobs:
           conda-pack -o environment.tar.gz -f
 
       - name: Upload environment.tar.gz to S3
-        uses: ./.github/actions/s3cmd-docker
+        uses: ./actions/s3cmd-docker
         with:
           command: "put environment.tar.gz s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/iris_xgb/environment.tar.gz"
           access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
