@@ -12,9 +12,6 @@ jobs:
   mlflow-environment-artifact:
     runs-on: ubuntu-24.04
     steps:
-      - name: Check Out Code
-        uses: actions/checkout@v4
-      
       - name: Load .env file
         uses: xom9ikk/dotenv@v2.3.0
         with:
@@ -39,6 +36,9 @@ jobs:
           RUN_ID: ${{ env.RUN_ID }}
         run: |
           conda-pack -o environment.tar.gz -f
+      
+      - name: Check Out Code
+        uses: actions/checkout@v4
       
       - name: Upload environment.tar.gz to S3
         uses: ./actions/s3cmd-docker
