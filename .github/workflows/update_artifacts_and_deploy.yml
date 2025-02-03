@@ -4,18 +4,11 @@ on:
   push:
     branches:
       - master
-    tags:
-      - "[0-9]*.[0-9]*.[0-9]*"
-    
-    paths:
-      - "ml_platform/best_model_artifacts/.env_best_run" # when new best model run id is available
-      - "ml_platform/best_model_artifacts/conda.yaml" # when dependencies have changed
 env:
-  best_model_directory: ml_platform/best_model_artifacts # metadata and artifactory dir for the best mlflow run
-  mlflow_artifactory_prefix: ml_platform/mlartifacts # mlflow server s3 path prefix (see ml_platform/start-mlflow-server) 
+  best_model_directory: ml_platform/best_model_artifacts
+  mlflow_artifactory_prefix: ml_platform/mlartifacts
 
 jobs:
-
   mlflow-environment-artifact:
     runs-on: ubuntu-24.04
     steps:
@@ -25,7 +18,7 @@ jobs:
       - name: Load .env file
         uses: xom9ikk/dotenv@v2.3.0
         with:
-          path: ./${{ env.best_model_directory}}
+          path: ./${{ env.best_model_directory }}
           mode: best_run
           load-mode: strict
 
@@ -36,63 +29,25 @@ jobs:
           channels: conda-forge,defaults
           environment-file: ${{ env.best_model_directory }}/conda.yaml
           activate-environment: mlflow-env
-      
-      - name: Make a Tarball of the Environment and Push it to S3
+
+      # Step 1: Create the environment tarball
+      - name: Make a Tarball of the Environment
         working-directory: ${{ env.best_model_directory }}
         shell: bash -l {0}
         env:
-            EXPERIMENT_ID: ${{ env.EXPERIMENT_ID }}
-            RUN_ID: ${{ env.RUN_ID }}
+          EXPERIMENT_ID: ${{ env.EXPERIMENT_ID }}
+          RUN_ID: ${{ env.RUN_ID }}
         run: |
-          
-          # Pack the activated conda env into a tarball
           conda-pack -o environment.tar.gz -f
-          
-          # Update .s3cfg with the secret values (e.g., AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY)
-          ./s3_config ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-                      ${{ secrets.S3_ENDPOINT_URL }} ${{ secrets.BUCKET_LOCATION }}
-          
-          # Install s3cmd CLI to interact with the mlflow s3 artifact store
-          pip install s3cmd==2.4.0
-          
-          # Put the tarball in the best model's artifactory path
-          s3cmd -c ./.s3cfg put environment.tar.gz \
-              s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb/environment.tar.gz
-    
-  deploy-to-kserve:
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        needs: [mlflow-environment-artifact]
-        runs-on: ubuntu-24.04
-        steps:
-            - name: Check Out Code
-              uses: actions/checkout@v4
 
-            - name: Set up Kubectl
-              uses: azure/setup-kubectl@v4
-            
-            - name: Set K8s context
-              uses: Azure/k8s-set-context@v4
-              with:
-                kubeconfig: ${{ secrets.KUBECONFIG }}
-            
-            - name: Load .env file
-              uses: xom9ikk/dotenv@v2.3.0
-              with:
-                  path: ./${{ env.best_model_directory}}
-                  mode: best_run
-                  load-mode: strict
-
-            - name: Deploy the best mlflow model to Kserve
-              working-directory: ${{ env.best_model_directory}}
-              env:
-                S3_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
-                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                S3_REGION: ${{ secrets.S3_REGION }}
-                EXPERIMENT_ID: ${{ env.EXPERIMENT_ID }}
-                RUN_ID: ${{ env.RUN_ID }}
-              run: |
-                envsubst < inference_service/mlflow.yml | kubectl apply -f -
+      - name: Upload environment.tar.gz to S3
+        uses: ./.github/actions/s3cmd-docker
+        with:
+          command: "put environment.tar.gz s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/iris_xgb/environment.tar.gz"
+          access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          endpoint-url: ${{ secrets.S3_ENDPOINT_URL }}
+          bucket-location: ${{ secrets.BUCKET_LOCATION }}
                  
             
             
