@@ -4,22 +4,22 @@ This repository provides an overview of a complete machine learning workflow, fr
 
 # Prerequisites
 
-We use **devbox** to install all required packages listed in `devbox.json`. You also need `pyenv` to manage Python versions—install the version specified in `.python-version` (refer to `pyproject.toml` for details). After activating the devbox shell, run `./setup-env` to set up the Python virtual environment. Finally, launch Jupyter notebooks with the kernel pointing to this newly created environment.   
+We use [devbox](https://www.jetify.com/devbox) to install all required packages listed in `devbox.json`. You also need `pyenv` to manage Python versions—install the version specified in `.python-version` (refer to `pyproject.toml` for details). After activating the devbox shell, run `./setup-env` to set up the Python virtual environment. Finally, launch Jupyter notebooks with the kernel pointing to this newly created environment.   
 
 # Infrastructure
 
-We use **Terraform** to provision a Kubernetes cluster on [IONOS Cloud](https://cloud.ionos.de). You may opt for a different cloud provider, but you’ll need to update the Terraform files in the `terraform` directory accordingly. Ensure that your Kubernetes cluster’s `config` file is placed under `~/.kube` in `/home/user`.
+We use [Terraform](https://www.terraform.io/) to provision a Kubernetes cluster on [IONOS Cloud](https://cloud.ionos.de). You may opt for a different cloud provider, but you’ll need to update the Terraform files in the `terraform` directory accordingly. Ensure that your Kubernetes cluster’s `config` file is placed under `~/.kube` in `/home/user`.
 
 If you’re using a *managed* Kubernetes cluster on IONOS Cloud, you can retrieve the cluster’s config file with the `helper/get_k8s_config.py` script. This requires the cluster ID—found in `terraform.tfstate` once provisioning is complete—passed in via the `--id` argument.
 
-The Kubernetes cluster is where our Spark ETL job will be executed and our inference service (`Kserve`) will be located. 
+The Kubernetes cluster is where our [Spark](https://spark.apache.org/) ETL job will be executed and our inference service (`Kserve`) will be located. 
 
 # Repository Structure
 
 Each major step of the workflow has its own directory:
 
 * `data_platform`: Contains the PySpark script (sample ETL job), the Kubernetes job CRD, and the installation assets for [Stackable](https://stackable.tech/en/) operators.
-* `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for Ray-based training and hyperparameter optimization, the KServe installation configuration, and a `best_model_artifacts` folder with MLflow artifacts (e.g., `conda.yaml`, `.env.best_run`) for the best mlflow run alongside supplementary files (`s3_config`, `.s3cfg`) used later in CI/CD.
+* `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for [Ray-based training and hyperparameter optimization](https://docs.ray.io/en/latest/tune/index.html), the KServe installation configuration, and a `best_model_artifacts` folder with MLflow artifacts (e.g., `conda.yaml`, `.env.best_run`) for the best mlflow run alongside supplementary files (`s3_config`, `.s3cfg`) used later in CI/CD.
 
 * `.github/workflows`: Workflow for the CI/CD. 
 
@@ -30,7 +30,7 @@ Each major step of the workflow has its own directory:
 
 # Querying the Inference Service
 
-Use the bash script at `ml_platform/best_model_artifacts/inference_service/prediction` to send a prediction request to the inference service. The `input.json` file in that same folder provides the feature set (`protocolVersion: v2`) for the instance you want the XGBoost model to predict.
+Use the bash script at `ml_platform/best_model_artifacts/inference_service/prediction` to send a prediction request to the inference service. The `input.json` file in that same folder provides the feature set (`protocolVersion: v2`) for the instance you want the **XGBoost** model to predict.
 
 > [!Note]
 > Reasoned about Kubernetes configuration editing for a few seconds Before running the inference, modify the configmap
