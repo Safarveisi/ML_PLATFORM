@@ -39,7 +39,7 @@ Use the bash script at `ml_platform/best_model_artifacts/inference_service/predi
 > [!Note]
 > Reasoned about Kubernetes configuration editing for a few seconds Before running the inference, modify the configmap
 > called config-domain in the knative-serving namespace of your Kubernetes cluster. Use kubectl edit to remove _example
-> from the data key, and then adjust the indentation for the rest of > the content in that key.
+> from the data key, and then adjust the indentation for the rest of the content in that key.
 
 # Contributing
 
