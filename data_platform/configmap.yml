@@ -6,28 +6,21 @@ data:
 
     spark = SparkSession.builder.appName("MLPlatform").getOrCreate()
 
-    # Example of an ETL job (can be anything)
-    df = spark.createDataFrame(
-        [
-            ("sue", 32),
-            ("li", 3),
-            ("bob", 75),
-            ("heo", 13),
-        ],
-        ["first_name", "age"],
-    )
+    # Processing raw Iris data
+    df = spark.read.csv(
+        "s3a://${S3_BUCKET}/ml_platform/etl/raw/iris.data",
+        inferSchema=True,
+        header=False,
+        sep=","
+        ) \
+        .toDF("sepal length (cm)", "sepal width (cm)", "petal length (cm)", "petal width (cm)", "target")
 
-    df1 = df.withColumn(
-        "life_stage",
-        when(col("age") < 13, "child")
-        .when(col("age").between(13, 19), "teenager")
-        .otherwise("adult"),
-    )
+    df1 = df.withColumn("target", when(col("target") == "Iris-setosa", 0)
+                                 .when(col("target") == "Iris-versicolor", 1)
+                                 .when(col("target") == "Iris-virginica", 2))
 
-    df2 = df1.where(col("life_stage").isin(["teenager", "adult"]))
-
-    # Write the preprocessed spark df into S3 (${S3_BUCKET} will be filled via envsubst later - see Taskfile.yml)
-    df2.write.parquet("s3a://${S3_BUCKET}/ml_platform/etl", mode="overwrite")
+    # Write the preprocessed spark df into S3 as a single csv file (${S3_BUCKET} will be filled via envsubst later - see Taskfile.yml)
+    df1.coalesce(1).write.format("csv").option("header", "true").mode("overwrite").save("s3a://${S3_BUCKET}/ml_platform/etl/preprocessed")
 kind: ConfigMap
 metadata:
   creationTimestamp: null
