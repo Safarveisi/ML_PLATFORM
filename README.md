@@ -19,7 +19,7 @@ The Kubernetes cluster is where our [Spark](https://spark.apache.org/) ETL job w
 Each major step of the workflow has its own directory:
 
 * `data_platform`: Contains the PySpark script (sample ETL job), the Kubernetes job CRD, and the installation assets for [Stackable](https://stackable.tech/en/) operators.
-* `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for [Ray-based training and hyperparameter optimization](https://docs.ray.io/en/latest/tune/index.html), the KServe installation configuration, and a `best_model_artifacts` folder with MLflow artifacts (e.g., `conda.yaml`, `.env.best_run`) for the best mlflow run alongside supplementary files (`s3_config`, `.s3cfg`) used later in CI/CD.
+* `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for [Ray-based training and hyperparameter optimization](https://docs.ray.io/en/latest/tune/index.html), the KServe installation configuration, and a `best_model_artifacts` folder with MLflow artifacts (e.g., `conda.yaml`, `.env.best_run`) for the best mlflow run.
 
 * `.github/workflows`: Workflow for the CI/CD. 
 
