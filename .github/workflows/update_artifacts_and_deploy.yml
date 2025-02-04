@@ -6,7 +6,9 @@ on:
       - master
     tags:
       - "[0-9]*.[0-9]*.[0-9]*"
-
+    paths:
+      - "ml_platform/best_model_artifacts/.env_best_run" # when new best model run id is available
+      - "ml_platform/best_model_artifacts/conda.yaml" # when dependencies have changed
 env:
   best_model_directory: ml_platform/best_model_artifacts
   mlflow_artifactory_prefix: ml_platform/mlartifacts

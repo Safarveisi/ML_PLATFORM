@@ -21,7 +21,7 @@ Each major step of the workflow has its own directory:
 * `data_platform`: Contains the PySpark script (sample ETL job), the Kubernetes job CRD, and the installation assets for [Stackable](https://stackable.tech/en/) operators.
 * `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for [Ray-based training and hyperparameter optimization](https://docs.ray.io/en/latest/tune/index.html), the KServe installation configuration, and a `best_model_artifacts` folder with MLflow artifacts (e.g., `conda.yaml`, `.env.best_run`) for the best mlflow run.
 
-* `.github/workflows`: Workflow for the CI/CD. 
+* `.github/workflows`: CI/CD workflow and a custom Docker action (located in `.github/actions/s3cmd-docker`) that simplifies interacting with S3-compatible services. At the time of writing, none of the available s3cmd actions supported S3-compatible services other than `s3.amazonaws.com`.
 
 # Workload
 
