@@ -29,7 +29,7 @@ This action executes an arbitrary s3cmd command to either write to or delete an 
 uses: ./.github/actions/s3cmd-docker  
 with:
     command: put file.txt s3://bucket/prefix/file.txt
-    access_key: <access_key>
-    secret_key: <secret_key>
-    host_base: <host_base>
-    bucket_location: <bucket_location>
+    access_key: *access_key*
+    secret_key: *secret_key*
+    host_base: *host_base*
+    bucket_location: *bucket_location*
