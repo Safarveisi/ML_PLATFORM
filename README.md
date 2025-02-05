@@ -40,9 +40,9 @@ We suggest using [go-task](https://github.com/go-task/task) for task automation.
 Use the bash script at `ml_platform/best_model_artifacts/inference_service/prediction` to send a prediction request to the inference service. The `input.json` file in that same folder provides the feature set (`protocolVersion: v2`) for the instance you want the **XGBoost** model to predict.
 
 > [!Note]
->  Modify the configmap called `config-domain` in the `knative-serving` namespace of your Kubernetes cluster. 
-> Use `kubectl edit` to remove `_example` from the `data` key, and then adjust the indentation for the rest
-> of the content in that key.
+>  Before using the inference service, modify the configmap called `config-domain` in the `knative-serving`
+> namespace of your Kubernetes cluster. Use `kubectl edit` to remove `_example` from the `data` key, and
+> then adjust the indentation for the rest of the content in that key.
 
 # Contributing
 
