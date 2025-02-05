@@ -20,9 +20,12 @@ Each major step of the workflow has its own directory:
 
 * `data_platform`: Contains the PySpark script (sample ETL job), the Kubernetes job CRD, and the installation assets for [Stackable](https://stackable.tech/en/) operators.
 * `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for [Ray-based training and hyperparameter optimization](https://docs.ray.io/en/latest/tune/index.html), the KServe installation configuration, and a `best_model_artifacts` folder with MLflow artifacts (e.g., `conda.yaml`, `.env.best_run`) for the best mlflow run.
-
 * `data`: Sample data to be used for Pyspark ETL job and Hyperparameter tunning.
 * `.github/workflows`: CI/CD workflow and a custom Docker action (located in `.github/actions/s3cmd-docker`) that simplifies interacting with S3-compatible services. At the time of writing, none of the available s3cmd actions supported S3-compatible services other than `s3.amazonaws.com`.
+
+> [!Note]
+>  Using the bash files in `install` directory of `data_platform` and `and ml_platform`, you can install 
+> Stackable K8s Spark operator and serverless Kserve into your Kubernetes cluster. 
 
 # Workload
 
@@ -37,9 +40,9 @@ We suggest using [go-task](https://github.com/go-task/task) for task automation.
 Use the bash script at `ml_platform/best_model_artifacts/inference_service/prediction` to send a prediction request to the inference service. The `input.json` file in that same folder provides the feature set (`protocolVersion: v2`) for the instance you want the **XGBoost** model to predict.
 
 > [!Note]
-> Reasoned about Kubernetes configuration editing for a few seconds Before running the inference, modify the configmap
-> called config-domain in the knative-serving namespace of your Kubernetes cluster. Use kubectl edit to remove _example
-> from the data key, and then adjust the indentation for the rest of the content in that key.
+>  Modify the configmap called `config-domain` in the `knative-serving` namespace of your Kubernetes cluster. 
+> Use `kubectl edit` to remove `_example` from the `data` key, and then adjust the indentation for the rest
+> of the content in that key.
 
 # Contributing
 
