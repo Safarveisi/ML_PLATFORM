@@ -6,7 +6,9 @@ This repository provides an overview of a complete machine learning workflow, fr
 
 We use [devbox](https://www.jetify.com/devbox) to install all required packages listed in `devbox.json`. You also need `pyenv` to manage Python versions—install the version specified in `.python-version` (refer to `pyproject.toml` for details). After activating the devbox shell, run `./setup-env` to set up the Python virtual environment. Finally, launch Jupyter notebooks with the kernel pointing to this newly created environment.   
 
-You can track your ML experiments by using either a local or a remote `Mlflow` server (see `ml_platform/start-mlflow-server`). If you opt for a remote server, it must be backed by an S3 artifactory store. Furthermore, you should change the tracking server uri in the jupyter notebook to your remote server using `mlflow.set_tracking_uri(<remote_server_uri>)`. 
+You can track your ML experiments using either a local or a remote [Mlflow](https://mlflow.org/) server (see `ml_platform/start-mlflow-server`). If you opt for a remote server, it must be backed by an S3 artifactory store. Remember to update the tracking server URI in your Jupyter notebook by calling `mlflow.set_tracking_uri(<remote_server_uri>)`.
+
+To enable CI/CD, configure your Git repository with the necessary S3 credentials as secrets (the credentials used to log the metdata and artifacts for each trial into Mlflow server and its s3 artifactory storage), and ensure that the artifact paths in the S3 bucket are set correctly.
 
 # Infrastructure
 
