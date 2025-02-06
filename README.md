@@ -6,6 +6,8 @@ This repository provides an overview of a complete machine learning workflow, fr
 
 We use [devbox](https://www.jetify.com/devbox) to install all required packages listed in `devbox.json`. You also need `pyenv` to manage Python versions—install the version specified in `.python-version` (refer to `pyproject.toml` for details). After activating the devbox shell, run `./setup-env` to set up the Python virtual environment. Finally, launch Jupyter notebooks with the kernel pointing to this newly created environment.   
 
+You can track your ML experiments by using either a local or a remote `Mlflow` server (see `ml_platform/start-mlflow-server`). If you opt for a remote server, it must be backed by an S3 artifactory store. Furthermore, you should change the tracking server uri in the jupyter notebook to your remote server using `mlflow.set_tracking_uri(<remote_server_uri>)`. 
+
 # Infrastructure
 
 We use [Terraform](https://www.terraform.io/) to provision a Kubernetes cluster on [IONOS Cloud](https://cloud.ionos.de). You may opt for a different cloud provider, but you’ll need to update the Terraform files in the `terraform` directory accordingly. Ensure that your Kubernetes cluster’s `config` file is placed under `~/.kube` in `/home/user`.
