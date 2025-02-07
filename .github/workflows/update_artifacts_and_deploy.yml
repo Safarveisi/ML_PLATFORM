@@ -3,37 +3,39 @@ name: Update Mlflow Artifact Path and Deploy on Kserve
 on:
   push:
     branches:
-      - master
+      - master # Trigger the workflow every time there is a push to the master branch
     tags:
-      - "[0-9]*.[0-9]*.[0-9]*"
+      - "[0-9]*.[0-9]*.[0-9]*" # Trigger the workflow every time there is a new tag
     paths:
-      - "ml_platform/best_model_artifacts/.env_best_run" # when new best model run id is available
-      - "ml_platform/best_model_artifacts/conda.yaml" # when dependencies have changed
+      - "ml_platform/best_model_artifacts/.env_best_run" # When new best model run id is available
+      - "ml_platform/best_model_artifacts/conda.yaml" # When dependencies have changed
+
 env:
-  best_model_directory: ml_platform/best_model_artifacts
+  best_model_directory: ml_platform/best_model_artifacts 
   mlflow_artifactory_prefix: ml_platform/mlartifacts
 
 jobs:
+
   mlflow-environment-artifact:
     runs-on: ubuntu-24.04
     steps:
       - name: Check Out Code
         uses: actions/checkout@v4
       
-      - name: Load .env file
+      - name: Load .env file and add new env variables to the job
         uses: xom9ikk/dotenv@v2.3.0
         with:
           path: ./${{ env.best_model_directory }}
           mode: best_run
           load-mode: strict
 
-      - name: Set up miniconda
+      - name: Set up miniconda and activate conda virtual env
         uses: conda-incubator/setup-miniconda@v3
         with: 
           auto-activate-base: false
           channels: conda-forge,defaults
           environment-file: ${{ env.best_model_directory }}/conda.yaml
-          activate-environment: mlflow-env
+          activate-environment: mlflow-env # Name of the virtual env in the conda.yaml
 
       - name: Make a Tarball of the Environment
         working-directory: ${{ env.best_model_directory }}
@@ -41,7 +43,7 @@ jobs:
         run: |
           conda-pack -o environment.tar.gz -f
 
-      - name: Upload environment.tar.gz to S3
+      - name: Upload environment.tar.gz to the best MLflow run's artifactory path on S3
         uses: ./.github/actions/s3cmd-docker  
         with:
           command: put ${{ env.best_model_directory }}/environment.tar.gz s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/iris_xgb/environment.tar.gz
@@ -49,9 +51,9 @@ jobs:
           secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           host_base: ${{ secrets.S3_ENDPOINT_URL }}
           bucket_location: ${{ secrets.BUCKET_LOCATION }}
-    
+
   deploy-to-kserve:
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        if: ${{ startsWith(github.ref, 'refs/tags/') }} # Skip this job if there isn't any new tag pushed
         needs: [mlflow-environment-artifact]
         runs-on: ubuntu-24.04
         steps:
@@ -66,14 +68,14 @@ jobs:
               with:
                 kubeconfig: ${{ secrets.KUBECONFIG }}
             
-            - name: Load .env file
+            - name: Load .env file and add new env variables to the job
               uses: xom9ikk/dotenv@v2.3.0
               with:
                   path: ./${{ env.best_model_directory}}
                   mode: best_run
                   load-mode: strict
 
-            - name: Deploy the best mlflow model to Kserve
+            - name: Deploy the best Mlflow model to Kserve
               working-directory: ${{ env.best_model_directory}}
               env:
                 S3_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
