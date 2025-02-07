@@ -16,7 +16,7 @@ We use [Terraform](https://www.terraform.io/) to provision a Kubernetes cluster 
 
 If you’re using a *managed* Kubernetes cluster on IONOS Cloud, you can retrieve the cluster’s config file with the `helper/get_k8s_config.py` script. This requires the cluster ID—found in `terraform.tfstate` once provisioning is complete—passed in via the `--id` argument.
 
-The Kubernetes cluster is where our [Spark](https://spark.apache.org/) ETL job will be executed and our inference service (`Kserve`) will be located. 
+The Kubernetes cluster is where our [Spark](https://spark.apache.org/) ETL job will be executed and our inference service `Kserve` will be located. 
 
 # Repository Structure
 
