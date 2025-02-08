@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DEFAULT_BACKEND_STORE="sqlite:///ml_platform.db"
-DEFAULT_ARTIFACTS_DESTINATION="s3://customerintelligence/ml_platform/mlartifacts"
+DEFAULT_BACKEND_STORE=sqlite:///ml_platform.db
+DEFAULT_ARTIFACTS_DESTINATION=s3://customerintelligence/ml_platform/mlartifacts
 
 backendStore=${1:-$DEFAULT_BACKEND_STORE}
 artifactoryDestination=${2:-DEFAULT_ARTIFACTS_DESTINATION}
@@ -11,6 +11,6 @@ artifactoryDestination=${2:-DEFAULT_ARTIFACTS_DESTINATION}
 ##############################################################
 
 mlflow server \
-    --backend-store-uri "$backendStore" \
-    --artifacts-destination "$artifactoryDestination" \
+    --backend-store-uri $backendStore \
+    --artifacts-destination $artifactoryDestination \
     --host 0.0.0.0 --port 5000 \
