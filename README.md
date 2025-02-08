@@ -54,6 +54,8 @@ If you modify the `InferenceService` to introduce a canary model (see `ml_platfo
 kubectl get pods -l serving.kserve.io/inferenceservice=iris-classifier
 ```
 
+You can promote the canary model by removing the `canaryTrafficPercent` field in the manifest file.
+
 # Contributing
 
 We welcome feedback and contributions. Please open an issue or submit a pull request for any improvements or bug fixes.
