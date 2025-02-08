@@ -12,7 +12,7 @@ To enable CI/CD, configure your Git repository with the necessary S3 credentials
 
 # Infrastructure
 
-We use [Terraform](https://www.terraform.io/) to provision a Kubernetes cluster on [IONOS Cloud](https://cloud.ionos.de). You may opt for a different cloud provider, but you’ll need to update the Terraform files in the `terraform` directory accordingly. Ensure that your Kubernetes cluster’s `config` file is placed under `~/.kube` in `/home/user`.
+We use [Terraform](https://www.terraform.io/) to provision a Kubernetes cluster on [IONOS Cloud](https://cloud.ionos.de). For this, you need a `token` to authorize Terraform. You may opt for a different cloud provider, but you’ll need to update the Terraform files in the `terraform` directory accordingly. Ensure that your Kubernetes cluster’s `config` file is placed under `~/.kube` in `/home/user`.
 
 If you’re using a *managed* Kubernetes cluster on IONOS Cloud, you can retrieve the cluster’s config file with the `helper/get_k8s_config.py` script. This requires the cluster ID—found in `terraform.tfstate` once provisioning is complete—passed in via the `--id` argument.
 
