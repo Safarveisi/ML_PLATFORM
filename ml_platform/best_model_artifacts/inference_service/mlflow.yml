@@ -37,7 +37,6 @@ metadata:
     autoscaling.knative.dev/maxScale: "3"
 spec:
   predictor:
-    canaryTrafficPercent: 10 # The canary model
     serviceAccountName: sa
     model:
       modelFormat:
