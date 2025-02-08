@@ -48,6 +48,12 @@ Use the bash script at `ml_platform/best_model_artifacts/inference_service/predi
 > namespace of your Kubernetes cluster. Use `kubectl edit` to remove `_example` from the `data` key, and
 > then adjust the indentation for the rest of the content in that key.
 
+If you modify the `InferenceService` to introduce a canary model (see `ml_platform/best_model_artifacts/inference_service/mlflow.yml`), the `iris-classifier` will have two active revisions. Viewing the running pods, you’ll notice one pod serving the old model and another serving the new model, with 10% of traffic routed to the canary version.
+
+```bash
+kubectl get pods -l serving.kserve.io/inferenceservice=iris-classifier
+```
+
 # Contributing
 
 We welcome feedback and contributions. Please open an issue or submit a pull request for any improvements or bug fixes.
