@@ -53,36 +53,36 @@ jobs:
           bucket_location: ${{ secrets.BUCKET_LOCATION }}
 
   deploy-to-kserve:
-        if: ${{ startsWith(github.ref, 'refs/tags/') }} # Skip this job if there isn't any new tag pushed
-        needs: [mlflow-environment-artifact]
-        runs-on: ubuntu-24.04
-        steps:
-            - name: Check Out Code
-              uses: actions/checkout@v4
+      if: ${{ startsWith(github.ref, 'refs/tags/') }} # Skip this job if there isn't any new tag pushed
+      needs: [mlflow-environment-artifact]
+      runs-on: ubuntu-24.04
+      steps:
+        - name: Check Out Code
+          uses: actions/checkout@v4
 
-            - name: Set up Kubectl
-              uses: azure/setup-kubectl@v4
-            
-            - name: Set K8s context
-              uses: Azure/k8s-set-context@v4
-              with:
-                kubeconfig: ${{ secrets.KUBECONFIG }}
-            
-            - name: Load .env file and add new env variables to the job
-              uses: xom9ikk/dotenv@v2.3.0
-              with:
-                  path: ./${{ env.best_model_directory}}
-                  mode: best_run
-                  load-mode: strict
+        - name: Set up Kubectl
+          uses: azure/setup-kubectl@v4
+        
+        - name: Set K8s context
+          uses: Azure/k8s-set-context@v4
+          with:
+            kubeconfig: ${{ secrets.KUBECONFIG }}
+        
+        - name: Load .env file and add new env variables to the job
+          uses: xom9ikk/dotenv@v2.3.0
+          with:
+              path: ./${{ env.best_model_directory}}
+              mode: best_run
+              load-mode: strict
 
-            - name: Deploy the best Mlflow model to Kserve
-              working-directory: ${{ env.best_model_directory}}
-              env:
-                S3_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
-                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                S3_REGION: ${{ secrets.S3_REGION }}
-                EXPERIMENT_ID: ${{ env.EXPERIMENT_ID }}
-                RUN_ID: ${{ env.RUN_ID }}
-              run: |
-                envsubst < inference_service/mlflow.yml | kubectl apply -f -
+        - name: Deploy the best Mlflow model to Kserve
+          working-directory: ${{ env.best_model_directory}}
+          env:
+            S3_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            S3_REGION: ${{ secrets.S3_REGION }}
+            EXPERIMENT_ID: ${{ env.EXPERIMENT_ID }}
+            RUN_ID: ${{ env.RUN_ID }}
+          run: |
+            envsubst < inference_service/mlflow.yml | kubectl apply -f -
