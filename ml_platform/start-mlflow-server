@@ -11,6 +11,6 @@ artifactoryDestination=${2:-DEFAULT_ARTIFACTS_DESTINATION}
 ##############################################################
 
 mlflow server \
-    --backend-store-uri $backendStore \
-    --artifacts-destination $artifactoryDestination \
+    --backend-store-uri ${backendStore} \
+    --artifacts-destination ${artifactoryDestination} \
     --host 0.0.0.0 --port 5000 \
