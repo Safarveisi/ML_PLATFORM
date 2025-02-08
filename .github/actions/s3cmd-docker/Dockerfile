@@ -2,7 +2,7 @@ FROM alpine:3.10
 
 LABEL maintainer="sajad.safarveisi@gmail.com"
 
-RUN apk update && apk add --no-cache python py-pip py-setuptools git ca-certificates libmagic \
+RUN apk update && apk add --no-cache python py-pip py-setuptools ca-certificates libmagic \
     && pip install --no-cache-dir s3cmd==2.4.0 && \
     rm -rf /var/cache/apk/*
 
