@@ -28,7 +28,7 @@ secrets:
   - name: s3creds
 ---
 apiVersion: "serving.kserve.io/v1beta1"
-kind: "InferenceService"
+kind: InferenceService
 metadata:
   name: iris-classifier
   namespace: default
