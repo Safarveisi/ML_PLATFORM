@@ -9,7 +9,7 @@ on:
     paths:
       - "ml_platform/best_model_artifacts/.env_best_run" # When new best model run id is available
       - "ml_platform/best_model_artifacts/conda.yaml" # When dependencies have changed
-
+      
 env:
   best_model_directory: ml_platform/best_model_artifacts 
   mlflow_artifactory_prefix: ml_platform/mlartifacts
@@ -38,7 +38,6 @@ jobs:
           activate-environment: mlflow-env # Name of the virtual env in the conda.yaml
 
       - name: Make a Tarball of the Environment
-        working-directory: ${{ env.best_model_directory }}
         shell: bash -l {0}
         run: |
           conda-pack -o environment.tar.gz -f
@@ -46,7 +45,7 @@ jobs:
       - name: Upload environment.tar.gz to the best MLflow run's artifactory path on S3
         uses: ./.github/actions/s3cmd-docker  
         with:
-          command: put ${{ env.best_model_directory }}/environment.tar.gz s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/iris_xgb/environment.tar.gz
+          command: put environment.tar.gz s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/iris_xgb/environment.tar.gz
           access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           host_base: ${{ secrets.S3_ENDPOINT_URL }}
