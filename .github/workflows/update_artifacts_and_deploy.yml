@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - master # Trigger the workflow every time there is a push to the master branch
-    tags:
-      - "[0-9]*.[0-9]*.[0-9]*" # Trigger the workflow every time there is a new tag
-    paths:
-      - "ml_platform/best_model_artifacts/.env.best_run" # When new best model run id is available
-      - "ml_platform/best_model_artifacts/conda.yaml" # When dependencies have changed
+    # tags:
+    #   - "[0-9]*.[0-9]*.[0-9]*" # Trigger the workflow every time there is a new tag
+    # paths:
+    #   - "ml_platform/best_model_artifacts/.env.best_run" # When new best model run id is available
+    #   - "ml_platform/best_model_artifacts/conda.yaml" # When dependencies have changed
 
 env:
   best_model_directory: ml_platform/best_model_artifacts 
@@ -28,13 +28,22 @@ jobs:
           path: ./${{ env.best_model_directory }}
           mode: best_run
           load-mode: strict
+      
+      - name: Get conda.yaml from the best MLflow run's artifactory path on S3
+        uses: ./.github/actions/s3cmd-docker  
+        with:
+          command: get s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/iris_xgb/conda.yaml
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          host_base: ${{ secrets.S3_ENDPOINT_URL }}
+          bucket_location: ${{ secrets.BUCKET_LOCATION }}
 
       - name: Set up miniconda and activate conda virtual env
         uses: conda-incubator/setup-miniconda@v3
         with: 
           auto-activate-base: false
           channels: conda-forge,defaults
-          environment-file: ${{ env.best_model_directory }}/conda.yaml
+          environment-file: ./conda.yaml
           activate-environment: mlflow-env # Name of the virtual env in the conda.yaml
 
       - name: Make a Tarball of the Environment
