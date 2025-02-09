@@ -34,8 +34,9 @@ metadata:
   namespace: default
 spec:
   predictor:
-    scaleTarget: 1 # One request per pod
-    scaleMetric: concurrency # Additional pods are spawned if the number of requests exceeds 1
+    containerConcurrency: 10 # Ten requests per pod (InferenceService replica)
+    minReplicas: 1 # This prevents cold start 
+    maxReplicas: 3 # Maximum number of pods (surplus requests will be buffered)
     canaryTrafficPercent: 10 # The canary model
     serviceAccountName: sa
     model:
