@@ -38,12 +38,12 @@ spec:
     minReplicas: 1 # This prevents cold start 
     maxReplicas: 3 # Maximum number of pods (surplus requests will be buffered)
     serviceAccountName: sa
-    canaryTrafficPercent: 10 # The canary model
+    # canaryTrafficPercent: 10 # The canary model
     model:
       modelFormat:
         name: mlflow
       protocolVersion: v2
-      storageUri: s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/iris_xgb
+      storageUri: s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/${ARTIFACT_PATH}
       resources: # Resources for each replica
         limits: 
           cpu: "3"

@@ -31,7 +31,7 @@ jobs:
       - name: Get conda.yaml from the best MLflow run's artifactory path on S3
         uses: ./.github/actions/s3cmd-docker  
         with:
-          command: get s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/iris_xgb/conda.yaml
+          command: get s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/${{ env.ARTIFACT_PATH }}/conda.yaml
           access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           host_base: ${{ secrets.S3_ENDPOINT_URL }}
@@ -53,7 +53,7 @@ jobs:
       - name: Upload environment.tar.gz to the best MLflow run's artifactory path on S3
         uses: ./.github/actions/s3cmd-docker  
         with:
-          command: put environment.tar.gz s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/iris_xgb/environment.tar.gz
+          command: put environment.tar.gz s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/${{ env.ARTIFACT_PATH }}/environment.tar.gz
           access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           host_base: ${{ secrets.S3_ENDPOINT_URL }}
@@ -91,5 +91,6 @@ jobs:
             S3_REGION: ${{ secrets.S3_REGION }}
             EXPERIMENT_ID: ${{ env.EXPERIMENT_ID }}
             RUN_ID: ${{ env.RUN_ID }}
+            ARTIFACT_PATH: ${{ env.ARTIFACT_PATH }}
           run: |
             envsubst < inference_service/mlflow.yml | kubectl apply -f -
