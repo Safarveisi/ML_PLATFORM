@@ -1,6 +1,6 @@
 # s3cmd docker action
 
-This action executes an arbitrary s3cmd command to either write to or delete an object in the S3 bucket.
+This action executes an arbitrary s3cmd command against a S3 bucket.
 
 ## Inputs
 
