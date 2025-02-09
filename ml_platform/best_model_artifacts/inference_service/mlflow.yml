@@ -32,11 +32,10 @@ kind: InferenceService
 metadata:
   name: iris-classifier
   namespace: default
-  annotations:
-    autoscaling.knative.dev/minScale: "1"
-    autoscaling.knative.dev/maxScale: "3"
 spec:
   predictor:
+    scaleTarget: 1 # One request per pod
+    scaleMetric: concurrency # Additional pods are spawned if the number of requests exceeds 1
     canaryTrafficPercent: 10 # The canary model
     serviceAccountName: sa
     model:
