@@ -41,7 +41,7 @@ We suggest using [go-task](https://github.com/go-task/task) for task automation.
 
 # Querying the Inference Service
 
-Use the bash script at `ml_platform/best_model_artifacts/inference_service/prediction` to send a prediction request to the inference service. The `input.json` file in that same folder provides the feature set (`protocolVersion: v2`) for the instance you want the **XGBoost** model to predict.
+Use the bash script at `ml_platform/best_model_artifacts/inference_service/prediction` to send a prediction request to the inference service. The `input.json` file in that same folder provides the feature set (`protocolVersion: v2`) for the instance you want the **XGBoost** model to predict. You can also use `ml_platform/serve.ipynb` for this purpose. 
 
 > [!Note]
 >  Before using the inference service, modify the configmap called `config-domain` in the `knative-serving`
