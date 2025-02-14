@@ -1,16 +1,12 @@
 #!/bin/bash
 
-DEFAULT_VERSION=24.11.1
-
-version=${1:-$DEFAULT_VERSION}
-
 #####################################################################################
 ## Installs Stackable operator for Spark on K8s along with its dependencies        ## 
 ## https://docs.stackable.tech/home/stable/spark-k8s/getting_started/installation/ ##
 #####################################################################################
 
 stackablectl operator install \
-  commons=$version \
-  secret=$version \
-  listener=$version \
-  spark-k8s=$version
+  commons=24.11.1 \
+  secret=24.11.1 \
+  listener=24.11.1 \
+  spark-k8s=24.11.1
