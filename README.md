@@ -33,7 +33,7 @@ Each major step of the workflow has its own directory:
 
 # Workload
 
-![platforms](./pictures/stack.png "Workload")
+![platforms](./pictures/comp.png "Workload")
 
 # Task Automation
 
