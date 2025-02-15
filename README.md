@@ -6,7 +6,7 @@ This repository provides an overview of a complete machine learning workflow, fr
 
 We use [devbox](https://www.jetify.com/devbox) to install all required packages listed in `devbox.json`. You also need `pyenv` to manage Python versions—install the version specified in `.python-version` (refer to `pyproject.toml` for details). After activating the devbox shell, run `./setup-env` to set up the Python virtual environment. Finally, launch Jupyter notebooks with the kernel pointing to this newly created environment.   
 
-You can track your ML experiments using either a local or a remote [Mlflow](https://mlflow.org/) server (see `ml_platform/start-mlflow-server`). In either case, the server must be backed by an S3 artifactory store. Remember to update the tracking server URI in your Jupyter notebook by calling `mlflow.set_tracking_uri(<remote_server_uri>)`.
+You can track your ML experiments using either a local or a remote [Mlflow](https://mlflow.org/) server (see `ml_platform/start-local-mlflow-server`). In either case, the server must be backed by an S3 artifactory store. Remember to update the tracking server URI in your Jupyter notebook by calling `mlflow.set_tracking_uri(<remote_server_uri>)`.
 
 To enable CI/CD, configure your Git repository with the necessary S3 credentials as secrets (the credentials used to log the metdata and artifacts for each trial into Mlflow server and its S3 artifactory storage), and ensure that the artifact paths in the S3 bucket are set correctly.
 
@@ -22,9 +22,14 @@ The Kubernetes cluster is where our [Spark](https://spark.apache.org/) ETL job w
 
 Each major step of the workflow has its own directory:
 
-* `data_platform`: Contains the PySpark script (sample ETL job), the Kubernetes job CRD, and the installation assets for [Stackable](https://stackable.tech/en/) operators.
-* `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for [Ray-based training and hyperparameter optimization](https://docs.ray.io/en/latest/tune/index.html), the KServe installation configuration, and a `best_model_artifacts` folder with MLflow artifacts (e.g., `conda.yaml`, `.env.best_run`) for the best mlflow run.
+* `data_platform`: Contains the PySpark script (sample ETL job), the Kubernetes job CRD object, and the installation assets for [Stackable](https://stackable.tech/en/) operators.
+
+* `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for [Ray-based training and hyperparameter optimization](https://docs.ray.io/en/latest/tune/index.html), and a folder (`best_model_artifacts`) where we keep the best Mlflow run's attributes (`.env.best_run`). This is necessary for our CI/CD pipeline.
+
+* `inference_service`: Includes the installation assets for serverless Kserve, a Jupyter notebook (`serve.ipynb`) to make predictions using  Kserve, and the CRD object to deploy our Mlflow model using Kserve on K8s.  
+
 * `data`: Sample data to be used for Pyspark ETL job and Hyperparameter tunning.
+
 * `.github/workflows`: CI/CD workflow and a custom Docker action (located in `.github/actions/s3cmd-docker`) that simplifies interacting with S3-compatible services. At the time of writing, none of the available s3cmd actions supported S3-compatible services other than `s3.amazonaws.com`.
 
 > [!Note]
