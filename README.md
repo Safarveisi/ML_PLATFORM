@@ -26,14 +26,14 @@ Each major step of the workflow has its own directory:
 
 * `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for [Ray-based training and hyperparameter optimization](https://docs.ray.io/en/latest/tune/index.html), and a folder (`best_model_artifacts`) where we keep the best Mlflow run's attributes (`.env.best_run`). This is necessary for our CI/CD pipeline.
 
-* `inference_service`: Includes the installation assets for serverless Kserve, a Jupyter notebook (`serve.ipynb`) to make predictions using  Kserve, and the CRD object to deploy our Mlflow model using Kserve on K8s.  
+* `inference_service`: Includes the installation assets for serverless Kserve, a Jupyter notebook (`serve.ipynb`) to make predictions using  Kserve, and a CRD object to deploy our Mlflow model using Kserve on K8s.  
 
 * `data`: Sample data to be used for Pyspark ETL job and Hyperparameter tunning.
 
 * `.github/workflows`: CI/CD workflow and a custom Docker action (located in `.github/actions/s3cmd-docker`) that simplifies interacting with S3-compatible services. At the time of writing, none of the available s3cmd actions supported S3-compatible services other than `s3.amazonaws.com`.
 
 > [!Note]
->  Using the bash files in `install` directory of `data_platform` and `and ml_platform`, you can install 
+>  Using the bash files in `install` directory of `data_platform` and `inference_service`, you can install 
 > Stackable K8s Spark operator and serverless Kserve into your Kubernetes cluster. 
 
 # Workload
