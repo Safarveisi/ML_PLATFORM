@@ -9,9 +9,9 @@
 ## Run the following after deploying the mlflow model into the Kserve cluster ##
 ################################################################################
 
-export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
-export SERVICE_HOSTNAME=$(kubectl get inferenceservice iris-classifier -o jsonpath='{.status.url}' | cut -d "/" -f 3)
+INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+SERVICE_HOSTNAME=$(kubectl get inferenceservice iris-classifier -o jsonpath='{.status.url}' | cut -d "/" -f 3)
 
 echo "Ingress host name is : $INGRESS_HOST"
 echo "Ingress port is : $INGRESS_PORT"
