@@ -22,15 +22,13 @@ The Kubernetes cluster is where our [Spark](https://spark.apache.org/) ETL job w
 
 Each major step of the workflow has its own directory:
 
-* `data_platform`: Contains the PySpark script (sample ETL job), the Kubernetes job CRD object, and the installation assets for [Stackable](https://stackable.tech/en/) operators.
-
-* `ml_platform`: Includes a Jupyter notebook (`ray_tune.ipynb`) for [Ray-based training and hyperparameter optimization](https://docs.ray.io/en/latest/tune/index.html), and a folder (`best_model_artifacts`) where we keep the best Mlflow run's attributes (`.env.best_run`). This is necessary for our CI/CD pipeline.
-
-* `inference_service`: Includes the installation assets for serverless Kserve, a Jupyter notebook (`serve.ipynb`) to make predictions using  Kserve, and a CRD object to deploy our Mlflow model using Kserve on K8s.  
-
-* `data`: Sample data to be used for Pyspark ETL job and Hyperparameter tunning.
-
-* `.github/workflows`: CI/CD workflow and a custom Docker action (located in `.github/actions/s3cmd-docker`) that simplifies interacting with S3-compatible services. At the time of writing, none of the available s3cmd actions supported S3-compatible services other than `s3.amazonaws.com`.
+| Directory           | Description                                                                                                                                                                                                                                                  |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `data_platform`     | Contains the PySpark script (sample ETL job), the Kubernetes job CRD object, and the installation assets for [Stackable](https://stackable.tech/en/) operators.                                                                                             |
+| `ml_platform`       | Includes a Jupyter notebook (`ray_tune.ipynb`) for [Ray-based training and hyperparameter optimization](https://docs.ray.io/en/latest/tune/index.html), and a folder (`best_model_artifacts`) where we keep the best Mlflow run's attributes (`.env.best_run`). This is necessary for our CI/CD pipeline. |
+| `inference_service` | Includes the installation assets for serverless Kserve, a Jupyter notebook (`serve.ipynb`) to make predictions using Kserve, and a CRD object to deploy our Mlflow model using Kserve on K8s.                                                                |
+| `data`              | Sample data to be used for Pyspark ETL job and Hyperparameter tuning.                                                                                                                                                                                        |
+| `.github/workflows` | CI/CD workflow and a custom Docker action (located in `.github/actions/s3cmd-docker`) that simplifies interacting with S3-compatible services. At the time of writing, none of the available s3cmd actions supported S3-compatible services other than `s3.amazonaws.com`. |
 
 > [!Note]
 >  Using the bash files in `install` directory of `data_platform` and `inference_service`, you can install 
