@@ -43,7 +43,7 @@ spec:
       modelFormat:
         name: mlflow
       protocolVersion: v2
-      storageUri: s3://customerintelligence/ml_platform/mlartifacts/${EXPERIMENT_ID}/${RUN_ID}/artifacts/${ARTIFACT_PATH}
+      storageUri: s3://customerintelligence/${MLFLOW_ARTIFACTORY_PREFIX}/${ARTIFACTS_PATH}
       resources: # Resources for each replica
         limits: 
           cpu: "3"

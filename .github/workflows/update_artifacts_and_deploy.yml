@@ -1,4 +1,4 @@
-name: Update Mlflow Artifact Path and Deploy on Kserve
+name: Update Mlflow Artifact Path and Deploy Champion Model on Kserve
 
 on:
   push:
@@ -12,7 +12,6 @@ on:
 env:
   best_model_directory: ml_platform/best_model_artifacts
   inference_directory: inference_service
-  mlflow_artifactory_prefix: ml_platform/mlartifacts
 
 jobs:
 
@@ -32,7 +31,7 @@ jobs:
       - name: Get conda.yaml from the best MLflow run's artifactory path on S3
         uses: ./.github/actions/s3cmd-docker  
         with:
-          command: get s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/${{ env.ARTIFACT_PATH }}/conda.yaml
+          command: get s3://customerintelligence/${{ env.MLFLOW_ARTIFACTORY_PREFIX }}/${{ env.ARTIFACTS_PATH }}/conda.yaml
           access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           host_base: ${{ secrets.S3_ENDPOINT_URL }}
@@ -54,7 +53,7 @@ jobs:
       - name: Upload environment.tar.gz to the best MLflow run's artifactory path on S3
         uses: ./.github/actions/s3cmd-docker  
         with:
-          command: put environment.tar.gz s3://customerintelligence/${{ env.mlflow_artifactory_prefix }}/${{ env.EXPERIMENT_ID }}/${{ env.RUN_ID }}/artifacts/${{ env.ARTIFACT_PATH }}/environment.tar.gz
+          command: put environment.tar.gz s3://customerintelligence/${{ env.MLFLOW_ARTIFACTORY_PREFIX }}/${{ env.ARTIFACTS_PATH }}/environment.tar.gz
           access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           host_base: ${{ secrets.S3_ENDPOINT_URL }}
@@ -83,15 +82,14 @@ jobs:
               mode: best_run
               load-mode: strict
 
-        - name: Deploy the best Mlflow model to Kserve
+        - name: Deploy the Mlflow champion model to Kserve
           working-directory: ${{ env.inference_directory}}
           env:
             S3_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             S3_REGION: ${{ secrets.S3_REGION }}
-            EXPERIMENT_ID: ${{ env.EXPERIMENT_ID }}
-            RUN_ID: ${{ env.RUN_ID }}
-            ARTIFACT_PATH: ${{ env.ARTIFACT_PATH }}
+            ARTIFACTS_PATH: ${{ env.ARTIFACTS_PATH }}
+            MLFLOW_ARTIFACTORY_PREFIX: ${{ env.MLFLOW_ARTIFACTORY_PREFIX }}
           run: |
             envsubst < mlflow.yml | kubectl apply -f -
